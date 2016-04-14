@@ -27,20 +27,20 @@ public class FlashExecutor {
 		try {
 			executeFlClass(argv);
 		} catch (FileNotFoundException e) {
-			System.err.println(e.getLocalizedMessage());
+			System.out.println(e.getLocalizedMessage());
 		} catch (IOException e) {
-			System.err.println(e.getLocalizedMessage());
+			System.out.println(e.getLocalizedMessage());
 		}
 	}
 
 	private static void executeFlClass(String[] argv) throws IOException {
 
 		if (argv.length < 1) {
-			System.err.println("Arguments must contain one or more .fl.class files");
+			System.out.println("Arguments must contain one or more .fl.class files");
 			System.exit(1);
 		}
-		if (!argv[0].contains(".fl.class")) {
-			System.err
+		if (!argv[0].contains(".fl.cls")) {
+			System.out
 					.println("Please enter a valid intermediate file. Received "
 							+ argv[0]);
 			System.exit(1);
@@ -128,7 +128,7 @@ public class FlashExecutor {
 						}
 						if (aVariable) {
 							if (!vList.containsKey(variable)) {
-								vList.put(variable, 0.0);
+								vList.put(variable, 0);
 							}
 							valueStack.push(variable);
 						}
@@ -172,9 +172,9 @@ public class FlashExecutor {
 					case CALL_FUNCTION:
 						functionName = scan.next();
 						HashMap<String,Object> tmpList = new HashMap<String, Object>();
-						if (scan.hasNext()) {
-							params = new ArrayList<String>(Arrays.asList(scan
-									.next().split(",")));
+						params = new ArrayList<String>();
+						while (scan.hasNext()) {
+							params.add(scan.next());
 						}
 						for(String s:params){
 							tmpList.put(s, vList.get(s));
@@ -252,9 +252,9 @@ public class FlashExecutor {
 						break;
 					case FUNCTION:
 						functionName = scan.next();
-						if (scan.hasNext()) {
-							params = new ArrayList<String>(Arrays.asList(scan
-									.next().split(",")));
+						params = new ArrayList<String>();
+						while (scan.hasNext()) {
+							params.add(scan.next());
 						}
 						skipForFunction = true;
 						functionRefNumber = num;
@@ -383,7 +383,7 @@ public class FlashExecutor {
 						}
 						break;
 					case QUIT:
-						System.err.println("Quiting program with error:"
+						System.out.println("Quiting program with error:"
 								+ valueStack.pop().toString());
 						System.exit(1);
 						break;
