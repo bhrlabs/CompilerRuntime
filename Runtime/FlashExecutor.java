@@ -6,12 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
-
 
 /**
  * SER 502 Project 2 Group 31.
@@ -22,41 +20,49 @@ import java.util.Stack;
  * 
  */
 public class FlashExecutor {
-	public static void main(String argv[]) {
 
+	public static void main(String args[]) {
+
+		System.out.println("<-------------- Starting Execution -------------->\n");
+
+		if (args.length < 1) {
+			System.out.println("Arguments must contain one or more .fl.class files");
+			return;
+		}
+		
 		try {
-			executeFlClass(argv);
+			for (String filePath : args){
+				executeFlClass(filePath);
+			}
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getLocalizedMessage());
 		} catch (IOException e) {
 			System.out.println(e.getLocalizedMessage());
 		}
+
+		System.out.println("<-------------- End of Execution -------------->");
 	}
 
-	private static void executeFlClass(String[] argv) throws IOException {
+	private static void executeFlClass(String filePath) throws IOException {
 
-		if (argv.length < 1) {
-			System.out.println("Arguments must contain one or more .fl.class files");
-			System.exit(1);
+		if (!filePath.contains(".fl.cls")) {
+			System.out.println("Please enter a valid intermediate file. Received " + filePath);
+			return;
 		}
-		if (!argv[0].contains(".fl.cls")) {
-			System.out
-					.println("Please enter a valid intermediate file. Received "
-							+ argv[0]);
-			System.exit(1);
-		}
+
+		System.out.println("Executing file--> " + filePath.substring(filePath.lastIndexOf("\\") + 1) + "\n");
+		
 		FLConstants cmd = null;
 
 		Stack<Object> valueStack = new Stack<Object>();
 		Stack<Object> returnStack = new Stack<Object>();
 		HashMap<String, Object> vList = new HashMap<String, Object>();
 		HashMap<String, Function> functions = new HashMap<String, Function>();
-		InputStream is = new FileInputStream(argv[0]);
-		BufferedReader br = new BufferedReader(new InputStreamReader(is,
-				Charset.forName("UTF-8")));
 
+		// Getting all the lines of the file as a String Array
 		ArrayList<String> fileLines = new ArrayList<String>();
-		getFileCount(br, fileLines);
+		getFileCount(fileLines, filePath);
+
 		String lineToScan = "";
 		Scanner scan = null;
 		int skipto = 0;
@@ -67,9 +73,8 @@ public class FlashExecutor {
 		ArrayList<String> linesOfCode = new ArrayList<String>();
 		String functionName = "";
 		ArrayList<String> params = new ArrayList<String>();
-		StringBuilder output = new StringBuilder();
-		output.append("----------------------------------------------------------------------------\n");
-		output.append("Output of " + argv[0] + "\n");
+		
+		
 		for (int num = 0; num < fileLines.size(); num++) {
 			if (skip) {
 				num = skipto;
@@ -156,7 +161,7 @@ public class FlashExecutor {
 							Double d2 = Double.valueOf(o2);
 							valueStack.push(d2 + d1);
 						} else {
-							valueStack.push("\""+o2.replaceAll("\"", "").concat(o1.replaceAll("\"", ""))+"\"");
+							valueStack.push("\"" + o2.replaceAll("\"", "").concat(o1.replaceAll("\"", "")) + "\"");
 						}
 						break;
 					case ASSIGN:
@@ -171,17 +176,17 @@ public class FlashExecutor {
 						break;
 					case CALL_FUNCTION:
 						functionName = scan.next();
-						HashMap<String,Object> tmpList = new HashMap<String, Object>();
+						HashMap<String, Object> tmpList = new HashMap<String, Object>();
 						params = new ArrayList<String>();
 						while (scan.hasNext()) {
 							params.add(scan.next());
 						}
-						for(String s:params){
+						for (String s : params) {
 							tmpList.put(s, vList.get(s));
 						}
 						returnStack.push(tmpList);
 						returnStack.push(num);
-						num = functionRefNumber;
+						num = functions.get(functionName).lineNum;
 						assignParamValues(functions.get(functionName).params, params, vList, tmpList);
 						break;
 					case CONDITION_FALSE_JUMP_TO:
@@ -218,20 +223,16 @@ public class FlashExecutor {
 						}
 						break;
 					case END:
-						output.append("End of program\n");
-						System.out.println(output.toString());
+						System.out.println("End of program\n");
 						break;
 					case END_FUNCTION:
-						
-						if(!returnStack.isEmpty()){
-							num = (Integer)returnStack.pop();
-							//num = returnLineNumber;
-						}
-						else{
-						Function fun = new Function(functionName, params,
-						
-								linesOfCode);
-						functions.put(functionName, fun);
+
+						if (!returnStack.isEmpty()) {
+							num = (Integer) returnStack.pop();
+							// num = returnLineNumber;
+						} else {
+							Function fun = new Function(functionName, functionRefNumber, params, linesOfCode);
+							functions.put(functionName, fun);
 						}
 						skipForFunction = false;
 						break;
@@ -379,12 +380,11 @@ public class FlashExecutor {
 							if (stackElementIsAVariable(result)) {
 								op = vList.get(result).toString();
 							}
-							output.append(result + " = " + op + "\n");
+							System.out.println(result + " = " + op + "\n");
 						}
 						break;
 					case QUIT:
-						System.out.println("Quiting program with error:"
-								+ valueStack.pop().toString());
+						System.out.println("Quiting program with error:" + valueStack.pop().toString());
 						System.exit(1);
 						break;
 					case RETURN:
@@ -395,10 +395,10 @@ public class FlashExecutor {
 							o1 = vList.get(n1).toString();
 						}
 						valueStack.push(o1);
-						if(!returnStack.isEmpty()) {
-							num = (Integer)returnStack.pop();
+						if (!returnStack.isEmpty()) {
+							num = (Integer) returnStack.pop();
 							tList = (HashMap<String, Object>) returnStack.pop();
-							for(String s:tList.keySet()){
+							for (String s : tList.keySet()) {
 								vList.put(s, tList.get(s));
 							}
 						}
@@ -429,18 +429,17 @@ public class FlashExecutor {
 														// detected
 							System.out.println();
 							System.out.print("Enter value: ");
-							BufferedReader br1 = new BufferedReader(
-									new InputStreamReader(System.in));
+							BufferedReader br1 = new BufferedReader(new InputStreamReader(System.in));
 							while (!isNumber) {
 								try {
 									String input = br1.readLine();
-									if(input.matches("\\D+")){
-										val = "\""+ input +"\"";
-									}else{
+									if (input.matches("\\D+")) {
+										val = "\"" + input + "\"";
+									} else {
 										val = Double.parseDouble(input);
 									}
 									isNumber = true;
-									output.append("With Argument:" + val + "\n");
+									System.out.println("With Argument:" + val + "\n");
 								} catch (Exception e) {
 									System.out.print("Please enter a valid value: ");
 								}
@@ -468,23 +467,35 @@ public class FlashExecutor {
 	 * @return
 	 */
 	private static boolean stackElementIsAVariable(String element) {
-		return !element.matches("\\d+") && !element.contains(".")
-				&& !element.contains("\"") && !element.matches("true|false");
+		return !element.matches("\\d+") && !element.contains(".") && !element.contains("\"")
+				&& !element.matches("true|false");
 	}
 
-	private static int getFileCount(BufferedReader br, ArrayList<String> lines)
-			throws IOException {
+	/**
+	 * Reads the file and returns the a string array of lines of code.
+	 * 
+	 * @param lines
+	 * @param filePath
+	 * @return ArrayList<String>
+	 * @throws IOException
+	 */
+	private static int getFileCount(ArrayList<String> lines, String filePath) throws IOException {
+		InputStream is = new FileInputStream(filePath);
+		BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 		String line = "";
 		int count = 0;
 		while ((line = br.readLine()) != null) {
 			count++;
 			lines.add(line);
 		}
+		br.close();
+		is.close();
 		return count;
 	}
-	
-	private static void assignParamValues(List<String>funParams, List<String>params, HashMap<String, Object> vList, HashMap<String,Object> tmpList){
-		for(int i =0 ;i<funParams.size();i++){
+
+	private static void assignParamValues(List<String> funParams, List<String> params, HashMap<String, Object> vList,
+			HashMap<String, Object> tmpList) {
+		for (int i = 0; i < funParams.size(); i++) {
 			vList.put(funParams.get(i), tmpList.get(params.get(i)));
 		}
 	}

@@ -10,11 +10,13 @@ import java.util.List;
 public class Function {
 
 	String name;
+	int lineNum;
 	List<String> params;
 	ArrayList<String> linesOfCode;
 	
-	public Function(String name, List<String> params, ArrayList<String> linesOfCode){
+	public Function(String name, int lineNum, List<String> params, ArrayList<String> linesOfCode){
 		this.name  = name;
+		this.lineNum = lineNum;
 		this.params = params;
 		this.linesOfCode = linesOfCode;
 	}
