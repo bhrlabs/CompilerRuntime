@@ -1,8 +1,0 @@
-let
-	integer n,x,z.
-in
-	read n;
-	read x;
-	z := n + x;
-	write z;
-end
