@@ -1,18 +1,21 @@
-push b
-push 6
-assign
-function testfirst c
+in_int b
+function testfirst c r
 push c
+print
+push r
 print
 end_function
 function testsecond c
 push d
 push c
-push 2
-add
+ld_int 2
+multiply
 assign
 push d
 print
 end_function
-call_function testfirst b
-end
+push t
+ld_int 5
+assign
+call_function testfirst t b
+halt

@@ -124,6 +124,14 @@ public class FlashExecutor {
 						}
 					}
 					switch (cmd) {
+					case LD_INT:
+						if (scan.hasNextInt()) {
+							int number = scan.nextInt();
+							valueStack.push(number);
+						} else {
+							System.out.println("Command LD_INT must be followed by an Integer");
+						}
+						break;
 					case PUSH:
 						if (anInt) {
 							valueStack.push(intVal);
@@ -189,7 +197,7 @@ public class FlashExecutor {
 						num = functions.get(functionName).lineNum;
 						assignParamValues(functions.get(functionName).params, params, vList, tmpList);
 						break;
-					case CONDITION_FALSE_JUMP_TO:
+					case JUMP_FALSE:
 						skipto = scan.nextInt();
 						if (!(Boolean) valueStack.pop()) {
 							skip = true;
@@ -222,7 +230,7 @@ public class FlashExecutor {
 							valueStack.push(d2 / d1);
 						}
 						break;
-					case END:
+					case HALT:
 						System.out.println("End of program\n");
 						break;
 					case END_FUNCTION:
@@ -290,7 +298,7 @@ public class FlashExecutor {
 						d2 = Double.valueOf(o2);
 						valueStack.push(d2 >= d1);
 						break;
-					case LESSER:
+					case LT:
 						n1 = valueStack.pop().toString();
 						n2 = valueStack.pop().toString();
 						o1 = n1;
@@ -448,8 +456,20 @@ public class FlashExecutor {
 							i = i + 1;
 						}
 						break;
+					case DATA:
+						// Do Nothing
+					case IN_INT:
+						System.out.println("Enter a number");
+						Scanner sc = new Scanner(System.in);
+						int inp = sc.nextInt();
+						
+						String var = scan.next() + "";
+						if (!"".equals(var)){
+							vList.put(var, inp);
+						}
+						break;
 					default:
-						System.out.println("Something went wrong " + cmd);
+						System.out.println("Command not recognized: " + cmd);
 						break;
 					}
 				} else {
