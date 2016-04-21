@@ -75,11 +75,11 @@ public class FlashExecutor {
 		ArrayList<String> params = new ArrayList<String>();
 		
 		
-		for (int num = 0; num < fileLines.size(); num++) {
+		for (int ip = 0; ip < fileLines.size(); ip++) {
 			if (skip) {
-				num = skipto;
+				ip = skipto;
 			}
-			lineToScan = fileLines.get(num);
+			lineToScan = fileLines.get(ip);
 			if (lineToScan.equals("end_function")) {
 				skipForFunction = false;
 			}
@@ -130,8 +130,51 @@ public class FlashExecutor {
 							valueStack.push(number);
 						} else {
 							System.out.println("Command LD_INT must be followed by an Integer");
+							System.exit(1);
 						}
 						break;
+					case LD_VAR:
+						if (scan.hasNext()) {
+							String var = scan.next() + "";
+							if (vList.containsKey(var)) {
+								int val = Integer.valueOf(vList.get(var).toString());
+								valueStack.push(val);
+							} else {
+								System.out.println("Command LD_VAR must be followed by an Valid offset");
+								System.exit(1);
+							}
+						} else {
+							System.out.println("Command LD_VAR must be followed by an Offset");
+							System.exit(1);
+						}
+						break;
+					case STORE:
+						Object value = valueStack.pop();
+						if (scan.hasNext()){
+							String off = scan.next();
+							vList.put(off, value);
+						} else {
+							System.out.println("Command LD_INT must be followed by an Offset");
+							System.exit(1);
+						}
+						break;
+					case GOTO:
+						if (scan.hasNext()) {
+							ip = scan.nextInt()-1;
+						} else {
+							System.out.println("Command GOTO must be followed by a Line Number");
+							System.exit(1);
+						}
+						break;
+					case OUT_INT:
+						if (scan.hasNext()){
+							int off = scan.nextInt(); // Not Used
+							System.out.println(valueStack.pop()+"");
+						} else {
+							System.out.println("Command OUT_INT must be followed by an Offset");
+							System.exit(1);
+						}
+						break;					
 					case PUSH:
 						if (anInt) {
 							valueStack.push(intVal);
@@ -152,7 +195,6 @@ public class FlashExecutor {
 							valueStack.push(boolVal);
 						}
 						break;
-
 					case ADD:
 						String n1 = valueStack.pop().toString();
 						String n2 = valueStack.pop().toString();
@@ -165,22 +207,15 @@ public class FlashExecutor {
 							o2 = vList.get(n2).toString();
 						}
 						if (!o1.contains("\"") && !(o2.contains("\"")) && !o1.matches("\\D+") && !o2.matches("\\D+")) {
-							Double d1 = Double.valueOf(o1);
-							Double d2 = Double.valueOf(o2);
+							int d1 = Integer.valueOf(o1);
+							int d2 = Integer.valueOf(o2);
 							valueStack.push(d2 + d1);
 						} else {
 							valueStack.push("\"" + o2.replaceAll("\"", "").concat(o1.replaceAll("\"", "")) + "\"");
 						}
-						break;
-					case ASSIGN:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
-						o1 = n1;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
 						}
-						vList.put(n2, o1);
-
 						break;
 					case CALL_FUNCTION:
 						functionName = scan.next();
@@ -193,16 +228,16 @@ public class FlashExecutor {
 							tmpList.put(s, vList.get(s));
 						}
 						returnStack.push(tmpList);
-						returnStack.push(num);
-						num = functions.get(functionName).lineNum;
+						returnStack.push(ip);
+						ip = functions.get(functionName).lineNum;
 						assignParamValues(functions.get(functionName).params, params, vList, tmpList);
 						break;
-					case JUMP_FALSE:
+					case JMP_FALSE:
 						skipto = scan.nextInt();
 						if (!(Boolean) valueStack.pop()) {
 							skip = true;
 						} else {
-							skipto = num;
+							skipto = ip;
 						}
 						break;
 					case CONDITION_TRUE_JUMP_TO:
@@ -210,7 +245,7 @@ public class FlashExecutor {
 						if ((Boolean) valueStack.pop()) {
 							skip = true;
 						} else {
-							skipto = num;
+							skipto = ip;
 						}
 						break;
 					case DIVIDE:
@@ -225,18 +260,24 @@ public class FlashExecutor {
 							o2 = vList.get(n2).toString();
 						}
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
-							Double d1 = Double.valueOf(o1);
-							Double d2 = Double.valueOf(o2);
+							int d1 = Integer.valueOf(o1);
+							int d2 = Integer.valueOf(o2);
 							valueStack.push(d2 / d1);
+						}
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
 						}
 						break;
 					case HALT:
 						System.out.println("End of program\n");
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
+						}
 						break;
 					case END_FUNCTION:
 
 						if (!returnStack.isEmpty()) {
-							num = (Integer) returnStack.pop();
+							ip = (Integer) returnStack.pop();
 							// num = returnLineNumber;
 						} else {
 							Function fun = new Function(functionName, functionRefNumber, params, linesOfCode);
@@ -255,9 +296,9 @@ public class FlashExecutor {
 						if (stackElementIsAVariable(n2)) {
 							o2 = vList.get(n2).toString();
 						}
-						Double d1 = Double.valueOf(o1);
-						Double d2 = Double.valueOf(o2);
-						valueStack.push(d1.doubleValue() == d2.doubleValue());
+						int d1 = Integer.valueOf(o1);
+						int d2 = Integer.valueOf(o2);
+						valueStack.push(d1 == d2);
 						break;
 					case FUNCTION:
 						functionName = scan.next();
@@ -266,7 +307,7 @@ public class FlashExecutor {
 							params.add(scan.next());
 						}
 						skipForFunction = true;
-						functionRefNumber = num;
+						functionRefNumber = ip;
 						break;
 					case GREATER:
 						n1 = valueStack.pop().toString();
@@ -279,8 +320,8 @@ public class FlashExecutor {
 						if (stackElementIsAVariable(n2)) {
 							o2 = vList.get(n2).toString();
 						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
+						d1 = Integer.valueOf(o1);
+						d2 = Integer.valueOf(o2);
 						valueStack.push(d2 > d1);
 						break;
 					case GREATER_THAN_EQUAL:
@@ -294,8 +335,8 @@ public class FlashExecutor {
 						if (stackElementIsAVariable(n2)) {
 							o2 = vList.get(n2).toString();
 						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
+						d1 = Integer.valueOf(o1);
+						d2 = Integer.valueOf(o2);
 						valueStack.push(d2 >= d1);
 						break;
 					case LT:
@@ -309,9 +350,10 @@ public class FlashExecutor {
 						if (stackElementIsAVariable(n2)) {
 							o2 = vList.get(n2).toString();
 						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
+						d1 = Integer.valueOf(o1);
+						d2 = Integer.valueOf(o2);
 						valueStack.push(d2 < d1);
+						String tmp = scan.next(); // Not used
 						break;
 					case LESSER_THAN_EQUAL:
 						n1 = valueStack.pop().toString();
@@ -324,8 +366,8 @@ public class FlashExecutor {
 						if (stackElementIsAVariable(n2)) {
 							o2 = vList.get(n2).toString();
 						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
+						d1 = Integer.valueOf(o1);
+						d2 = Integer.valueOf(o2);
 						valueStack.push(d2 <= d1);
 						break;
 					case MODULUS:
@@ -340,8 +382,8 @@ public class FlashExecutor {
 							o2 = vList.get(n2).toString();
 						}
 						if (!o1.matches("\\s+") && !o2.matches("\\s+")) {
-							d1 = Double.valueOf(o1);
-							d2 = Double.valueOf(o2);
+							d1 = Integer.valueOf(o1);
+							d2 = Integer.valueOf(o2);
 							if (d1 == 0.0) {
 								valueStack.push(0);
 							} else {
@@ -349,7 +391,7 @@ public class FlashExecutor {
 							}
 						}
 						break;
-					case MULTIPLY:
+					case MULT:
 						n1 = valueStack.pop().toString();
 						n2 = valueStack.pop().toString();
 						o1 = n1;
@@ -361,9 +403,12 @@ public class FlashExecutor {
 							o2 = vList.get(n2).toString();
 						}
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
-							d1 = Double.valueOf(o1);
-							d2 = Double.valueOf(o2);
+							d1 = Integer.valueOf(o1);
+							d2 = Integer.valueOf(o2);
 							valueStack.push(d2 * d1);
+						}
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
 						}
 						break;
 					case NOT_EQUAL:
@@ -377,9 +422,9 @@ public class FlashExecutor {
 						if (stackElementIsAVariable(n2)) {
 							o2 = vList.get(n2).toString();
 						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
-						valueStack.push(d1.doubleValue() != d2.doubleValue());
+						d1 = Integer.valueOf(o1);
+						d2 = Integer.valueOf(o2);
+						valueStack.push(d1 != d2);
 						break;
 					case PRINT:
 						if (!valueStack.empty()) {
@@ -404,7 +449,7 @@ public class FlashExecutor {
 						}
 						valueStack.push(o1);
 						if (!returnStack.isEmpty()) {
-							num = (Integer) returnStack.pop();
+							ip = (Integer) returnStack.pop();
 							tList = (HashMap<String, Object>) returnStack.pop();
 							for (String s : tList.keySet()) {
 								vList.put(s, tList.get(s));
@@ -423,9 +468,12 @@ public class FlashExecutor {
 							o2 = vList.get(n2).toString();
 						}
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
-							d1 = Double.valueOf(o1);
-							d2 = Double.valueOf(o2);
+							d1 = Integer.valueOf(o1);
+							d2 = Integer.valueOf(o2);
 							valueStack.push(d2 - d1);
+						}
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
 						}
 						break;
 					case ARGS:
@@ -457,7 +505,7 @@ public class FlashExecutor {
 						}
 						break;
 					case DATA:
-						// Do Nothing
+						break;
 					case IN_INT:
 						System.out.println("Enter a number");
 						Scanner sc = new Scanner(System.in);

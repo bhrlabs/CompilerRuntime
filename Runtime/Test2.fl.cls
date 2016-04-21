@@ -1,21 +1,20 @@
 in_int b
 function testfirst c r
-push c
-print
-push r
-print
+ld_var c
+out_int 0
+ld_var r
+out_int 0
 end_function
 function testsecond c
-push d
-push c
+ld_var c
 ld_int 2
-multiply
-assign
-push d
-print
+mult
+store d
+ld_var d
+out_int 0
 end_function
-push t
 ld_int 5
-assign
+store t
 call_function testfirst t b
+call_function testsecond b
 halt
