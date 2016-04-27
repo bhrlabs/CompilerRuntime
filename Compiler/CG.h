@@ -28,7 +28,14 @@ void gen_code( enum code_ops operation, int arg )
 }
 
 void gen_code_bool( enum code_ops operation, char *arg )
-{ code[code_offset].op = operation;
+{
+  code[code_offset].op = operation;
+  code[code_offset++].name = arg;
+}
+
+void gen_fun(enum code_ops operation, char *arg)
+{
+  code[code_offset].op = operation;
   code[code_offset++].name = arg;
 }
 
@@ -48,7 +55,11 @@ void print_code( FILE *fp )
 	if( strcmp(op_name[(int) code[i].op],"ld_bol") == 0 ) {
 	fprintf(fp,"%3ld: %-10s %3s\n",i,op_name[(int) code[i].op], code[i].name );
 		i++;		
-		}
+	}
+	else if (strcmp(op_name[(int) code[i].op],"def") == 0 ){
+		fprintf(fp,"%3ld: %-10s %3s\n",i,op_name[(int) code[i].op], code[i].name );
+		i++;
+	}
 	else {
 	fprintf(fp,"%3ld: %-10s%4ld\n",i,op_name[(int) code[i].op], code[i].arg );
 		i++;
