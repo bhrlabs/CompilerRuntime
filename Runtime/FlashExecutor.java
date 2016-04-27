@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
@@ -26,7 +27,7 @@ public class FlashExecutor {
 		System.out.println("<-------------- Starting Execution -------------->\n");
 
 		if (args.length < 1) {
-			System.out.println("Arguments must contain one or more .fl.class files");
+			System.out.println("Arguments must contain one or more .fl.cls files");
 			return;
 		}
 		
@@ -63,7 +64,7 @@ public class FlashExecutor {
 		ArrayList<String> fileLines = new ArrayList<String>();
 		getFileCount(fileLines, filePath);
 
-		String lineToScan = "";
+		String lineScanned = "";
 		Scanner scan = null;
 		int skipto = 0;
 		int functionRefNumber = 0;
@@ -75,35 +76,35 @@ public class FlashExecutor {
 		ArrayList<String> params = new ArrayList<String>();
 		
 		
-		for (int num = 0; num < fileLines.size(); num++) {
+		for (int ip = 0; ip < fileLines.size(); ip++) {
 			if (skip) {
-				num = skipto;
+				ip = skipto;
 			}
-			lineToScan = fileLines.get(num);
-			if (lineToScan.equals("end_function")) {
+			lineScanned = fileLines.get(ip);
+			
+			// Ignores line numbers
+			if (lineScanned.contains(":")){
+				lineScanned = lineScanned.substring(lineScanned.indexOf(":")+1);
+			}
+			
+			if (lineScanned.equals("end_function")) {
 				skipForFunction = false;
 			}
 			if (skipForFunction)
-				linesOfCode.add(lineToScan);
-			scan = new Scanner(lineToScan);
+				linesOfCode.add(lineScanned);
+			scan = new Scanner(lineScanned);
 			skip = false;
 			while (!skip && !skipForFunction) {
-				boolean boolVal = false;
 				boolean anInt = false;
-				boolean aDouble = false;
 				boolean aVariable = false;
 				boolean aBool = false;
 				boolean aString = false;
 				Integer intVal = 0;
-				Double doubleVal = 0.0;
 				String variable = "";
 				if (scan.hasNext()) {
 					if (scan.hasNextInt()) {
 						intVal = scan.nextInt();
 						anInt = true;
-					} else if (scan.hasNextDouble()) {
-						doubleVal = scan.nextDouble();
-						aDouble = true;
 					} else {
 						String str = scan.next();
 						if (FLConstants.contains(str)) {
@@ -114,22 +115,104 @@ public class FlashExecutor {
 						} else if (str.endsWith("\"")) {
 							strVal = strVal + " " + str;
 							aString = true;
-						} else if (str.endsWith("bool")) {
-							str = str.substring(0, str.indexOf("b"));
-							aBool = true;
-							boolVal = str.equals("1");
 						} else {
 							variable = str;
 							aVariable = true;
 						}
 					}
 					switch (cmd) {
+					case LD_INT:
+						if (scan.hasNextInt()) {
+							int number = scan.nextInt();
+							valueStack.push(number);
+						} else {
+							System.out.println("Command LD_INT must be followed by an Integer");
+							System.exit(1);
+						}
+						break;
+					case LD_STR:
+						if (scan.hasNext()) {
+							String str = scan.next();
+							valueStack.push(str);
+						} else {
+							System.out.println("Command LD_STR must be followed by an String");
+							System.exit(1);
+						}
+						break;
+					case LD_BOL:
+						if (scan.hasNextBoolean()) {
+							boolean bool = scan.nextBoolean();
+							valueStack.push(bool);
+						} else {
+							System.out.println("Command LD_BOL must be followed by an Boolean");
+							System.exit(1);
+						}
+						break;
+					case LD_VAR:
+						if (scan.hasNext()) {
+							String var = scan.next() + "";
+							if (vList.containsKey(var)) {
+								Object val = vList.get(var);
+								valueStack.push(val);
+							} else {
+								System.out.println("Command LD_VAR must be followed by an Valid offset");
+								System.out.println("Intruction Pointer at: " + ip);
+								System.exit(1);
+							}
+						} else {
+							System.out.println("Command LD_VAR must be followed by an Offset");
+							System.out.println("Intruction Pointer at: " + ip);
+							System.exit(1);
+						}
+						break;
+					case STORE:
+						Object value = valueStack.pop();
+						if (scan.hasNext()){
+							String off = scan.next();
+							vList.put(off, value);
+						} else {
+							System.out.println("Command LD_INT must be followed by an Offset");
+							System.exit(1);
+						}
+						break;
+					case GOTO:
+						if (scan.hasNext()) {
+							ip = scan.nextInt()-1;
+						} else {
+							System.out.println("Command GOTO must be followed by a Line Number");
+							System.exit(1);
+						}
+						break;
+					case OUT_INT:
+						if (scan.hasNext()){
+							int off = scan.nextInt(); // Not Used
+							System.out.println(valueStack.pop()+"");
+						} else {
+							System.out.println("Command OUT_INT must be followed by an Offset");
+							System.exit(1);
+						}
+						break;
+					case OUT_STR:
+						if (scan.hasNext()){
+							int off = scan.nextInt(); // Not Used
+							System.out.println(valueStack.pop()+"");
+						} else {
+							System.out.println("Command OUT_STR must be followed by an Offset");
+							System.exit(1);
+						}
+						break;
+					case OUT_BOL:
+						if (scan.hasNext()){
+							int off = scan.nextInt(); // Not Used
+							System.out.println(valueStack.pop());
+						} else {
+							System.out.println("Command OUT_BOL must be followed by an Offset");
+							System.exit(1);
+						}
+						break;
 					case PUSH:
 						if (anInt) {
 							valueStack.push(intVal);
-						}
-						if (aDouble) {
-							valueStack.push(doubleVal);
 						}
 						if (aVariable) {
 							if (!vList.containsKey(variable)) {
@@ -140,41 +223,24 @@ public class FlashExecutor {
 						if (aString) {
 							valueStack.push(strVal);
 						}
-						if (aBool) {
-							valueStack.push(boolVal);
-						}
 						break;
-
 					case ADD:
 						String n1 = valueStack.pop().toString();
 						String n2 = valueStack.pop().toString();
 						String o1 = n1;
 						String o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
 						if (!o1.contains("\"") && !(o2.contains("\"")) && !o1.matches("\\D+") && !o2.matches("\\D+")) {
-							Double d1 = Double.valueOf(o1);
-							Double d2 = Double.valueOf(o2);
+							int d1 = Integer.valueOf(o1);
+							int d2 = Integer.valueOf(o2);
 							valueStack.push(d2 + d1);
 						} else {
 							valueStack.push("\"" + o2.replaceAll("\"", "").concat(o1.replaceAll("\"", "")) + "\"");
 						}
-						break;
-					case ASSIGN:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
-						o1 = n1;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
 						}
-						vList.put(n2, o1);
-
 						break;
-					case CALL_FUNCTION:
+					case FUN_CALL:
 						functionName = scan.next();
 						HashMap<String, Object> tmpList = new HashMap<String, Object>();
 						params = new ArrayList<String>();
@@ -185,16 +251,16 @@ public class FlashExecutor {
 							tmpList.put(s, vList.get(s));
 						}
 						returnStack.push(tmpList);
-						returnStack.push(num);
-						num = functions.get(functionName).lineNum;
+						returnStack.push(ip);
+						ip = functions.get(functionName).lineNum;
 						assignParamValues(functions.get(functionName).params, params, vList, tmpList);
 						break;
-					case CONDITION_FALSE_JUMP_TO:
+					case JMP_FALSE:
 						skipto = scan.nextInt();
 						if (!(Boolean) valueStack.pop()) {
 							skip = true;
 						} else {
-							skipto = num;
+							skipto = ip;
 						}
 						break;
 					case CONDITION_TRUE_JUMP_TO:
@@ -202,7 +268,7 @@ public class FlashExecutor {
 						if ((Boolean) valueStack.pop()) {
 							skip = true;
 						} else {
-							skipto = num;
+							skipto = ip;
 						}
 						break;
 					case DIVIDE:
@@ -210,25 +276,25 @@ public class FlashExecutor {
 						n2 = valueStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
-							Double d1 = Double.valueOf(o1);
-							Double d2 = Double.valueOf(o2);
+							int d1 = Integer.valueOf(o1);
+							int d2 = Integer.valueOf(o2);
 							valueStack.push(d2 / d1);
 						}
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
+						}
 						break;
-					case END:
+					case HALT:
 						System.out.println("End of program\n");
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
+						}
 						break;
-					case END_FUNCTION:
+					case FUN_EN:
 
 						if (!returnStack.isEmpty()) {
-							num = (Integer) returnStack.pop();
+							ip = (Integer) returnStack.pop();
 							// num = returnLineNumber;
 						} else {
 							Function fun = new Function(functionName, functionRefNumber, params, linesOfCode);
@@ -236,167 +302,86 @@ public class FlashExecutor {
 						}
 						skipForFunction = false;
 						break;
-					case EQUAL:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
-						o1 = n1;
-						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
-						Double d1 = Double.valueOf(o1);
-						Double d2 = Double.valueOf(o2);
-						valueStack.push(d1.doubleValue() == d2.doubleValue());
-						break;
-					case FUNCTION:
+					case FUN_INIT:
 						functionName = scan.next();
 						params = new ArrayList<String>();
 						while (scan.hasNext()) {
 							params.add(scan.next());
 						}
 						skipForFunction = true;
-						functionRefNumber = num;
+						functionRefNumber = ip;
 						break;
-					case GREATER:
+					case GT:
 						n1 = valueStack.pop().toString();
 						n2 = valueStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
+						int d1 = Integer.valueOf(o1);
+						int d2 = Integer.valueOf(o2);
 						valueStack.push(d2 > d1);
+						String tmp = scan.next(); // Not used
 						break;
-					case GREATER_THAN_EQUAL:
+					case EQ:
 						n1 = valueStack.pop().toString();
 						n2 = valueStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
+						d1 = Integer.valueOf(o1);
+						d2 = Integer.valueOf(o2);
+						valueStack.push(d2 == d1);
+						tmp = scan.next(); // Not used
+						break;
+					case GTEQ:
+						n1 = valueStack.pop().toString();
+						n2 = valueStack.pop().toString();
+						o1 = n1;
+						o2 = n2;
+						d1 = Integer.valueOf(o1);
+						d2 = Integer.valueOf(o2);
 						valueStack.push(d2 >= d1);
+						tmp = scan.next(); // Not used
 						break;
-					case LESSER:
+					case LT:
 						n1 = valueStack.pop().toString();
 						n2 = valueStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
+						d1 = Integer.valueOf(o1);
+						d2 = Integer.valueOf(o2);
 						valueStack.push(d2 < d1);
+						tmp = scan.next(); // Not used
 						break;
-					case LESSER_THAN_EQUAL:
+					case LTEQ:
 						n1 = valueStack.pop().toString();
 						n2 = valueStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
+						d1 = Integer.valueOf(o1);
+						d2 = Integer.valueOf(o2);
 						valueStack.push(d2 <= d1);
+						tmp = scan.next(); // Not used
 						break;
-					case MODULUS:
+					case MULT:
 						n1 = valueStack.pop().toString();
 						n2 = valueStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
-						if (!o1.matches("\\s+") && !o2.matches("\\s+")) {
-							d1 = Double.valueOf(o1);
-							d2 = Double.valueOf(o2);
-							if (d1 == 0.0) {
-								valueStack.push(0);
-							} else {
-								valueStack.push(d2 % d1);
-							}
-						}
-						break;
-					case MULTIPLY:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
-						o1 = n1;
-						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
-							d1 = Double.valueOf(o1);
-							d2 = Double.valueOf(o2);
+							d1 = Integer.valueOf(o1);
+							d2 = Integer.valueOf(o2);
 							valueStack.push(d2 * d1);
 						}
-						break;
-					case NOT_EQUAL:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
-						o1 = n1;
-						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
-						d1 = Double.valueOf(o1);
-						d2 = Double.valueOf(o2);
-						valueStack.push(d1.doubleValue() != d2.doubleValue());
-						break;
-					case PRINT:
-						if (!valueStack.empty()) {
-							String result = valueStack.pop().toString();
-							String op = "";
-							if (stackElementIsAVariable(result)) {
-								op = vList.get(result).toString();
-							}
-							System.out.println(result + " = " + op + "\n");
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
 						}
 						break;
-					case QUIT:
-						System.out.println("Quiting program with error:" + valueStack.pop().toString());
-						System.exit(1);
-						break;
-					case RETURN:
+					case POP:
 						HashMap<String, Object> tList = new HashMap<String, Object>();
 						n1 = valueStack.pop().toString();
 						o1 = n1;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
 						valueStack.push(o1);
 						if (!returnStack.isEmpty()) {
-							num = (Integer) returnStack.pop();
+							ip = (Integer) returnStack.pop();
 							tList = (HashMap<String, Object>) returnStack.pop();
 							for (String s : tList.keySet()) {
 								vList.put(s, tList.get(s));
@@ -408,16 +393,28 @@ public class FlashExecutor {
 						n2 = valueStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
-						if (stackElementIsAVariable(n1)) {
-							o1 = vList.get(n1).toString();
-						}
-						if (stackElementIsAVariable(n2)) {
-							o2 = vList.get(n2).toString();
-						}
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
-							d1 = Double.valueOf(o1);
-							d2 = Double.valueOf(o2);
+							d1 = Integer.valueOf(o1);
+							d2 = Integer.valueOf(o2);
 							valueStack.push(d2 - d1);
+						}
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
+						}
+						break;
+					case PWR:
+						n1 = valueStack.pop().toString();
+						n2 = valueStack.pop().toString();
+						o1 = n1;
+						o2 = n2;
+						if (!o1.contains("\"") || !(o2.contains("\""))) {
+							d1 = Integer.valueOf(o1);
+							d2 = Integer.valueOf(o2);
+							int ans = (int) Math.pow(d2, d1); 
+							valueStack.push(ans);
+						}
+						if (scan.hasNext()){
+							int tmp1 = scan.nextInt(); // Not Used
 						}
 						break;
 					case ARGS:
@@ -448,8 +445,66 @@ public class FlashExecutor {
 							i = i + 1;
 						}
 						break;
+					case DATA:
+						break;
+					case IN_INT:
+						System.out.println("Enter a number");
+						Scanner sc = new Scanner(System.in);
+						try {
+							int inp = sc.nextInt();
+							
+							String var = scan.next() + "";
+							if (!"".equals(var)){
+								vList.put(var, inp);
+							}
+						} catch (InputMismatchException e) {
+							System.out.println("Input is not a valid integer. Exiting ....");
+							System.exit(1);
+						}
+						break;
+					case IN_STR:
+						System.out.println("Enter a string");
+						sc = new Scanner(System.in);
+						try {
+							String inp = sc.next();
+							
+							String var = scan.next() + "";
+							if (!"".equals(var)){
+								vList.put(var, inp);
+							}
+						} catch (InputMismatchException e) {
+							System.out.println("Input is not a valid string. Exiting ....");
+							System.exit(1);
+						}
+						break;
+					case IN_BOL:
+						System.out.println("Enter a boolean");
+						sc = new Scanner(System.in);
+						try {
+							boolean inpB = sc.nextBoolean();
+							String var = scan.next() + "";
+							if (!"".equals(var)){
+								vList.put(var, inpB);
+							}
+						} catch (InputMismatchException e) {
+							System.out.println("Input is not a valid boolean. Exiting ....");
+							System.exit(1);
+						}
+						break;
+					case DEF:
+						if (scan.hasNext()) {
+							String ob = scan.next();
+							if ("str".equals(ob)){
+								ob = "";
+							}
+							vList.put(ip+"", ob);
+						} else {
+							System.out.println("DEF must be followed by default value");
+							System.exit(1);
+						}
+						break;
 					default:
-						System.out.println("Something went wrong " + cmd);
+						System.out.println("Command not recognized: " + cmd);
 						break;
 					}
 				} else {
@@ -458,17 +513,6 @@ public class FlashExecutor {
 			}
 			scan.close();
 		}
-	}
-
-	/**
-	 * Checks if the element on top of the value stack is a variable.
-	 * 
-	 * @param element
-	 * @return
-	 */
-	private static boolean stackElementIsAVariable(String element) {
-		return !element.matches("\\d+") && !element.contains(".") && !element.contains("\"")
-				&& !element.matches("true|false");
 	}
 
 	/**

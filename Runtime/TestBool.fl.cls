@@ -1,16 +1,19 @@
-  0: data         4
+0: data         4
   1: in_int       3
+  3: in_bol	5
+  6: ld_var 5
+  4: out_bol 0
   2: ld_bol     true
   3: store        4
   4: ld_var       4
-  5: jmp_false    9
+  5: jmp_false    12
   6: ld_int       1
   7: store        1
-  8: goto         9
+  8: goto         12
   9: ld_var       3
  10: ld_int      10
  11: lt           0
- 12: jmp_false   22
+ 12: jmp_false   25
  13: ld_int       5
  14: ld_var       1
  15: mult         0
@@ -19,7 +22,7 @@
  18: ld_int       1
  19: add          0
  20: store        3
- 21: goto         9
+ 21: goto         12
  22: ld_var       3
  23: out_int      1
  24: ld_var       1

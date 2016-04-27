@@ -6,6 +6,8 @@ import java.util.List;
  * 
  * Flash Programming Language
  * 
+ * Class corresponding to function definition.
+ * 
  */
 public class Function {
 

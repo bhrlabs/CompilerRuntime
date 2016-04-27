@@ -1,0 +1,17 @@
+let
+	integer n; integer x; integer y,z; boolean b; string s1; stack st;
+	
+in
+	n := 3;
+	
+	st.onto<n>;
+	st.outfrom<n>;
+
+	while n >= 1 do
+		x := x + n ^ 2;
+		n := n - 1;
+	end;
+	
+	write @s1;
+	
+end

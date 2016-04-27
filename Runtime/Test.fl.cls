@@ -5,7 +5,7 @@ function recur t
 push 1
 push t
 not_equal
-condition_false_jump_to 17
+jump_false 20
 push t
 print
 push t
@@ -18,4 +18,4 @@ push t
 print
 end_function
 call_function recur b
-end
+halt
