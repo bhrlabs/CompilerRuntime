@@ -467,17 +467,20 @@ public class FlashExecutor {
 						break;
 					case DEF:
 						if (scan.hasNext()) {
-							Object ob = scan.next();
-							if ("str".equals(ob)) {
-								ob = "";
-								vList.put(ip + "", ob);
+							String ob = scan.next();
+							if (ob.contains("str")) {
+								String v[] = ob.split("%");
+								vList.put(v[0], "");
 								break;
-							} else if ("stk".equals(ob)) {
+							} else if (ob.contains("stk")) {
 								Stack<Integer> st = new Stack<Integer>();
-								vList.put(ip + "", st);
+								String v[] = ob.split("%");
+								vList.put(v[0], st);
 								break;
+							} else {
+								String v[] = ob.split("%");
+								vList.put(v[0], v[1]);
 							}
-							vList.put(ip + "", ob);
 						} else {
 							System.out.println("DEF must be followed by default value");
 							System.exit(1);

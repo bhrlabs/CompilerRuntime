@@ -1,28 +1,28 @@
-  0: def          0
-  1: def          0
-  2: def        true
-  3: def        str
-  4: def        stk
+  0: def        n%0
+  1: def        x%0
+  2: def        b%true
+  3: def        s1%str
+  4: def        st%stk
   5: fun_init   add
-  6: para_int     6
-  7: ld_var       6
+  6: para_int     a
+  7: ld_var       a
   8: ld_int       2
   9: add          0
- 10: store        6
- 11: pop          6
+ 10: store        a
+ 11: pop          a
  12: fun_end      0
  13: data         6
  14: ld_int       3
- 15: store        0
- 16: ld_var       0
- 17: addstk       4
+ 15: store        n
+ 16: ld_var       n
+ 17: addstk      st
  18: ld_int       0
- 19: store        0
- 20: remstk       4
- 21: store        0
+ 19: store        n
+ 20: remstk      st
+ 21: store        n
  22: call       add
- 23: arg          0
- 24: store        1
- 25: ld_var       1
+ 23: arg          n
+ 24: store        x
+ 25: ld_var       x
  26: out_int      1
  27: halt         0

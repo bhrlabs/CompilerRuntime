@@ -153,7 +153,7 @@ context_check( enum code_ops operation, char *sym_name ,int type)
 	else if (type != -1 && identifier->type != type) {
 		yyerror( strcat(sym_name," type error!") );
 		}
-	else gen_code( operation, identifier->offset );
+	else gen_code_bool_str( operation, sym_name );
 }
 
 context_check_fun( enum code_ops operation, char *sym_name ,int type)		
@@ -189,7 +189,7 @@ argument_check(char* sym_name, int arg)
 			else if (!strcmp(checker,"PARA_STR")  &&	identifier->type != 2 )
 				yyerror( strcat(sym_name," parameter type mismatch!") );
 			}
-	gen_code( ARG, identifier->offset );
+	gen_code_bool_str( ARG, sym_name );
 }	
 
 /*=========================================================================
@@ -1656,7 +1656,7 @@ yyreduce:
 #line 172 "flash.y"
     {	
 		install( (yyvsp[(3) - (4)].id) , 1, block_offset);  
-		gen_code_bool_str(DEF, "0");
+		gen_code_def(DEF, (yyvsp[(3) - (4)].id), "0");
 	;}
     break;
 
@@ -1666,7 +1666,7 @@ yyreduce:
 #line 177 "flash.y"
     {	
 		install( (yyvsp[(3) - (4)].id) , 0, block_offset);  
-		gen_code_bool_str(DEF, "true");
+		gen_code_def(DEF, (yyvsp[(3) - (4)].id), "true");
 	;}
     break;
 
@@ -1676,7 +1676,7 @@ yyreduce:
 #line 182 "flash.y"
     {	
 		install( (yyvsp[(3) - (4)].id) , 2, block_offset);  
-		gen_code_bool_str(DEF, "str");
+		gen_code_def(DEF, (yyvsp[(3) - (4)].id), "str");
 	;}
     break;
 
@@ -1686,7 +1686,7 @@ yyreduce:
 #line 187 "flash.y"
     { 
 		install((yyvsp[(2) - (3)].id), 4, block_offset); 
-		gen_code_bool_str(DEF, "stk");  
+		gen_code_def(DEF, (yyvsp[(2) - (3)].id), "stk");  
 	;}
     break;
 
@@ -1773,7 +1773,7 @@ yyreduce:
 #line 253 "flash.y"
     {	
 		install( (yyvsp[(2) - (3)].id) , 1, block_offset); 
-		gen_code_bool_str(DEF, "0");			
+		gen_code_def(DEF, (yyvsp[(2) - (3)].id) ,"0");			
 	;}
     break;
 
@@ -1783,7 +1783,7 @@ yyreduce:
 #line 260 "flash.y"
     {	
 		install( (yyvsp[(2) - (3)].id) , 0, block_offset);
-		gen_code_bool_str(DEF, "true");			
+		gen_code_def(DEF, (yyvsp[(2) - (3)].id), "true");			
 	;}
     break;
 
@@ -1793,7 +1793,7 @@ yyreduce:
 #line 267 "flash.y"
     {	
 		install( (yyvsp[(2) - (3)].id) , 2, block_offset);
-		gen_code_bool_str(DEF, "str");			
+		gen_code_def(DEF, (yyvsp[(2) - (3)].id) ,"str");			
 	;}
     break;
 
