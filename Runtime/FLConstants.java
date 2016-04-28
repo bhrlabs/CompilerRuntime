@@ -12,7 +12,8 @@ public enum FLConstants {
 	GT, EQ, GTEQ, LT, LTEQ,
 	JMP_FALSE,CONDITION_TRUE_JUMP_TO,
 	ADD, SUB, MULT, DIVIDE, PWR,
-	FUN_EN, FUN_INIT, FUN_CALL, POP;
+	FUN_END, FUN_INIT, CALL, POP,
+	ADDSTK, REMSTK;
 	
 	public static boolean contains(String test) {
 	    for (FLConstants e : FLConstants.values()) {

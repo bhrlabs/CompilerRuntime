@@ -1,17 +1,24 @@
 let
 	integer n; integer x; integer y,z; boolean b; string s1; stack st;
-	
+	fun add(integer a; integer b;)
+		integer z; string s2;
+		s2 := "Sum is ";
+		z := a + b;
+		write @s2;
+		write z;
+	end_fun
 in
 	n := 3;
 	
-	st.onto<n>;
-	st.outfrom<n>;
-
+	s1 := "strsdf";
+	
+	
 	while n >= 1 do
 		x := x + n ^ 2;
 		n := n - 1;
 	end;
 	
+	call add(x, n);
 	write @s1;
 	
 end
