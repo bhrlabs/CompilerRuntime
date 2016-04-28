@@ -246,14 +246,6 @@ public class FlashExecutor {
 							skipto = ip;
 						}
 						break;
-					case CONDITION_TRUE_JUMP_TO:
-						skipto = scan.nextInt();
-						if ((Boolean) valueStack.pop()) {
-							skip = true;
-						} else {
-							skipto = ip;
-						}
-						break;
 					case DIVIDE:
 						n1 = valueStack.pop().toString();
 						n2 = valueStack.pop().toString();
@@ -425,34 +417,6 @@ public class FlashExecutor {
 						}
 						if (scan.hasNext()) {
 							int tmp1 = scan.nextInt(); // Not Used
-						}
-						break;
-					case ARGS:
-						int i = 0;
-						Object val = 0;
-						while (i < intVal) {
-							boolean isNumber = false; // default is false until
-														// valid input is
-														// detected
-							System.out.println();
-							System.out.print("Enter value: ");
-							BufferedReader br1 = new BufferedReader(new InputStreamReader(System.in));
-							while (!isNumber) {
-								try {
-									String input = br1.readLine();
-									if (input.matches("\\D+")) {
-										val = "\"" + input + "\"";
-									} else {
-										val = Double.parseDouble(input);
-									}
-									isNumber = true;
-									System.out.println("With Argument:" + val + "\n");
-								} catch (Exception e) {
-									System.out.print("Please enter a valid value: ");
-								}
-							}
-							vList.put("arg[" + i + "]", val);
-							i = i + 1;
 						}
 						break;
 					case DATA:
