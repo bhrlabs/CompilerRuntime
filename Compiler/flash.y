@@ -277,9 +277,10 @@ command : SKIP
 	{ 
 		context_check(ADDSTK, $1, 4);      
 	}
-	| IDENTIFIER OUTFROM '<' exp_int '>' 
+	| IDENTIFIER ASSGNOP IDENTIFIER OUTFROM 
 	{ 
-		context_check(REMSTK, $1, 4);      
+		context_check(REMSTK, $3, 4); 
+		context_check(STORE, $1 , 1);     
 	}
 	| RETURN IDENTIFIER 
 	{ 
@@ -295,6 +296,17 @@ command : SKIP
 		yyerror( " Number of parameters don't match!");
 		arg_offset = 0;		
 	} 
+	| IDENTIFIER ASSGNOP CALL IDENTIFIER
+	{ 
+		context_check_fun(FUN_CALL, $4, 3);		
+	}
+	'(' arguments ')'
+	{
+		if(arg_offset != as[fun_offset-1].q.count)
+		yyerror( " Number of parameters don't match!");
+		arg_offset = 0;
+		context_check( STORE, $1 , 1);		
+	}
 	| READ IDENTIFIER 
 	{    
 		context_check( READ_INT, $2 , 1);				
