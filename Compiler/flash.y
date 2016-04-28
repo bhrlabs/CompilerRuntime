@@ -152,6 +152,8 @@ char *strval;
 %left '-' '+'
 %left '*' '/'
 %right '^'
+%left '|' '&'
+%left '='
 /*=========================================================================
 					GRAMMAR RULES for the Simple language
 =========================================================================*/
@@ -431,6 +433,8 @@ exp_int : NUMBER			{ gen_code( LD_INT, $1 );							}
 	| exp_int '*' exp_int	{ gen_code( MULT, 0 );								}
 	| exp_int '/' exp_int	{ gen_code( DIV, 0 );								}
 	| exp_int '^' exp_int	{ gen_code( PWR, 0 );								}
+	| exp_int '|' exp_int	{ gen_code( OR, 0 );								}
+	| exp_int '&' exp_int	{ gen_code( AND, 0 );								}
 	| '(' exp_int ')'
 ;
 exp_bol :  BOOLEAN			{ gen_code_bool_str( LD_BOL, $1 );					}

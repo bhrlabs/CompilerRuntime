@@ -1,14 +1,20 @@
 let
-	integer n, x; boolean b; string s1; stack st;
-	fun add(integer a;)
-		a := 3 + 5 * 1;
-		return a;
+	integer n, x, y, z, u;
+	fun fib(integer a;)
+		if a = 1 | a = 2
+		then
+		return a - 1;
+		else
+		skip;
+		fi;
+		z := a - 1;
+		u := a - 2;
+		x := call fib(z);
+		y := call fib(u);
+		return x+y;
 	end_fun
 in
-	n := 3;
-	st.onto<n>;
-	n := 0;
-	n := st.outfrom;
-	x := call add(n);
+	n := 11;
+	x := call fib(n);
 	write x;
 end

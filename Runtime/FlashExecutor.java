@@ -507,6 +507,32 @@ public class FlashExecutor {
 							System.exit(1);
 						}
 						break;
+					case AND:
+						n1 = valueStack.pop().toString();
+						n2 = valueStack.pop().toString();
+						boolean b1;
+						boolean b2;
+						if (!n1.contains("\"") || !(n2.contains("\""))) {
+							b1 = Boolean.valueOf(n1);
+							b2 = Boolean.valueOf(n2);
+							valueStack.push(b2 && b1);
+						}
+						if (scan.hasNext()) {
+							int tmp1 = scan.nextInt(); // Not Used
+						}
+						break;
+					case OR:
+						n1 = valueStack.pop().toString();
+						n2 = valueStack.pop().toString();
+						if (!n1.contains("\"") || !(n2.contains("\""))) {
+							b1 = Boolean.valueOf(n1);
+							b2 = Boolean.valueOf(n2);
+							valueStack.push(b2 || b1);
+						}
+						if (scan.hasNext()) {
+							int tmp1 = scan.nextInt(); // Not Used
+						}
+						break;
 					default:
 						System.out.println("Command not recognized: " + cmd);
 						System.exit(1);
