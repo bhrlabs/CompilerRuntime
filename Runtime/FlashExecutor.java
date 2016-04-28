@@ -382,13 +382,14 @@ public class FlashExecutor {
 						 * tList.get(s)); } } scan.next();
 						 */
 						if (scan.hasNext()) {
-							valueStack.push(vList.get(scan.next()));
+							//valueStack.push(vList.get(scan.next()));
 							ip = (Integer) callStack.pop();
 							vList = (HashMap<String, Object>) callStack.pop();
 						} else {
 							System.out.println("Variable to return missing.");
 							System.exit(1);
 						}
+						scan.next();
 						break;
 					case SUB:
 						n1 = valueStack.pop().toString();

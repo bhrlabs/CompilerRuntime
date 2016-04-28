@@ -282,9 +282,9 @@ command : SKIP
 		context_check(REMSTK, $3, 4); 
 		context_check(STORE, $1 , 1);     
 	}
-	| RETURN IDENTIFIER 
+	| RETURN exp_int 
 	{ 
-		context_check( POP, $2 ,-1); 						
+		gen_code(POP, 0); 						
 	}
 	| CALL IDENTIFIER
 	{ 

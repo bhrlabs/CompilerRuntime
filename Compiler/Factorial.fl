@@ -9,8 +9,7 @@ let
 		fi;
 		z := a - 1;
 		x := call fact(z);
-		a := a * x;
-		return a;
+		return a * x;
 	end_fun
 in
 	n := 6;

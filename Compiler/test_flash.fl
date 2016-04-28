@@ -1,7 +1,7 @@
 let
 	integer n, x; boolean b; string s1; stack st;
 	fun add(integer a;)
-		a := a + 2;
+		a := 3 + 5 * 1;
 		return a;
 	end_fun
 in

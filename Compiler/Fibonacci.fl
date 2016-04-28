@@ -3,15 +3,13 @@ let
 	fun fib(integer a;)
 		if a = 1
 		then
-		a := a - 1;
-		return a;
+		return a - 1;
 		else
 		skip;
 		fi;
 		if a = 2
 		then
-		a := a - 1;
-		return a;
+		return a - 1;
 		else
 		skip;
 		fi;
@@ -19,11 +17,10 @@ let
 		u := a - 2;
 		x := call fib(z);
 		y := call fib(u);
-		z := x + y;
-		return z;
+		return x+y;
 	end_fun
 in
-	n := 6;
+	n := 11;
 	x := call fib(n);
 	write x;
 end

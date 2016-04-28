@@ -77,7 +77,7 @@ void print_code( FILE *fp )
 		fprintf(fp,"%3ld: %-10s %3s\n",i,op_name[(int) code[i].op], code[i].name );
 		i++;
 	}
-	else if( strcmp(op_name[(int) code[i].op],"call") == 0 || strcmp(op_name[(int) code[i].op],"pop") == 0) {
+	else if( strcmp(op_name[(int) code[i].op],"call") == 0) {
 		fprintf(fp,"%3ld: %-10s %3s\n",i,op_name[(int) code[i].op], code[i].name );
 		i++;
 	}
