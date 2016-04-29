@@ -1,0 +1,20 @@
+let
+	integer n, x, z; string s1;
+	fun fact(integer a;)
+		if a = 1
+		then
+		return a;
+		else
+		skip;
+		fi;
+		z := a - 1;
+		x := call fact(z);
+		return a * x;
+	end_fun
+in
+	read n;
+	x := call fact(n);
+	s1 := "Factorial output is: ";
+	write @s1;
+	write x;
+end

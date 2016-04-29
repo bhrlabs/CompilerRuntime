@@ -1,0 +1,18 @@
+let
+	integer n, i;
+	stack st;
+in
+	read n;
+	st.onto<n>;
+	read n;
+	st.onto<n>;
+	read n;
+	st.onto<n>;
+
+	i := st.outfrom;
+	write i;
+	i := st.outfrom;
+	write i;
+	i := st.outfrom;
+	write i;
+end
