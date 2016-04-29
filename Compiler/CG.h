@@ -1,3 +1,20 @@
+/*=========================================================================
+TEAM : Team 31, Team Flash, Very Fast Much Wow.
+
+Members : Anant Srivastava
+		  Bharat Singh
+		  Wenbo Tian
+		  Vidyaabharathi Vasudevan
+
+Build Using : FLEX(2.6.0), BISON (GNU 3.0.4), C;		  
+
+References : Compiler Construction using Flex and Bison,
+						Anthony A. Aaby,
+			 		email :	aabyan@wwc.edu
+			 	  version of Feburary 25,2004.
+	OPEN PUBLIC LISCENCE : https://opencontent.org/openpub
+=========================================================================*/
+
 /***************************************************************************
 								Code Generator
 ***************************************************************************/
@@ -97,10 +114,15 @@ void print_code( FILE *fp )
 		fprintf(fp,"%3ld: %-10s %3s\n",i,op_name[(int) code[i].op], code[i].name );
 		i++;
 	}
+	else if( strcmp(op_name[(int) code[i].op],"in_int") == 0 || strcmp(op_name[(int) code[i].op],"in_bool") == 0 || strcmp(op_name[(int) code[i].op],"in_str") == 0) {
+		fprintf(fp,"%3ld: %-10s %3s\n",i,op_name[(int) code[i].op], code[i].name );
+		i++;
+	}
 	else {
 	fprintf(fp,"%3ld: %-10s%4ld\n",i,op_name[(int) code[i].op], code[i].arg );
 		i++;
 		}
 	}
-}
+	}
+
 /************************** End Code Generator **************************/

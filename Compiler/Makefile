@@ -9,4 +9,4 @@ all: lex.yy.c flash.tab.c CG.h ST.h
 	gcc -o flash flash.tab.o lex.yy.o -lm
 	
 clean: 
-	rm flash.tab.c lex.yy.c flash.tab.h lex.yy.o flash.output flash.tab.o queue.o
+	rm flash.tab.c lex.yy.c flash.tab.h lex.yy.o flash.output flash.tab.o 

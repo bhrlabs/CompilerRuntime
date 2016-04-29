@@ -1,5 +1,22 @@
+/*=========================================================================
+TEAM : Team 31, Team Flash, Very Fast Much Wow.
+
+Members : Anant Srivastava
+		  Bharat Singh
+		  Wenbo Tian
+		  Vidyaabharathi Vasudevan
+
+Build Using : FLEX(2.6.0), BISON (GNU 3.0.4), C;		  
+
+References : Compiler Construction using Flex and Bison,
+						Anthony A. Aaby,
+			 		email :	aabyan@wwc.edu
+			 	  version of Feburary 25,2004.
+	OPEN PUBLIC LISCENCE : https://opencontent.org/openpub
+=========================================================================*/
+
 %{/*************************************************************************
-			Compiler for the Flash language
+					Compiler for the Flash language
 ***************************************************************************/
 /*=========================================================================
 	C Libraries, Symbol Table, Code Generator & other C code
@@ -170,20 +187,36 @@ declaration : /* empty*/
 	| declaration declarations
 ;	
 declarations : SKIP
+	| INTEGER id_seqi IDENTIFIER 
+	{
+		yyerror("Missing semicolon ';' ");
+	}
 	| INTEGER id_seqi IDENTIFIER ';' 
 	{	
 		install( $3 , 1, block_offset);  
 		gen_code_def(DEF, $3, "0");
 	}
+	| BOOLE id_seqb IDENTIFIER 
+	{
+		yyerror("Missing semicolon ';' ");
+	}		
 	| BOOLE id_seqb IDENTIFIER ';' 
 	{	
 		install( $3 , 0, block_offset);  
 		gen_code_def(DEF, $3, "true");
 	}
+	| BOOLE id_seqs IDENTIFIER 
+	{
+		yyerror("Missing semicolon ';' ");
+	}
 	| STR id_seqs IDENTIFIER ';' 	
 	{	
 		install( $3 , 2, block_offset);  
 		gen_code_def(DEF, $3, "str");
+	}
+	| STACK IDENTIFIER 
+	{
+		yyerror("Missing semicolon ';' ");
 	}
 	| STACK IDENTIFIER ';' 
 	{ 
@@ -213,6 +246,10 @@ parameter : /* empty */
 	| parameter parameters
 ;
 parameters : SKIP
+	| INTEGER IDENTIFIER
+	{
+		yyerror("Missing semicolon ';' ");
+	}
 	| INTEGER IDENTIFIER ';' 
 	{	
 		install( $2 , 1, block_offset );
@@ -220,12 +257,20 @@ parameters : SKIP
 		add_para_to_as(block_offset,"PARA_INT");
 		//printf("argi : %d\n",fun_offset);					
 	}
+	| BOOLE IDENTIFIER
+	{
+		yyerror("Missing semicolon ';' ");
+	}
 	| BOOLE IDENTIFIER ';' 
 	{	
 		install( $2 , 0, block_offset );
 		context_check(PARA_BOOL , $2, -1);	
 		add_para_to_as(block_offset,"PARA_BOOL");	
 		//printf("argb : %d\n",fun_offset)	;			
+	}
+	| STR IDENTIFIER
+	{
+		yyerror("Missing semicolon ';' ");
 	}
 	| STR IDENTIFIER ';' 
 	{	
@@ -272,7 +317,12 @@ id_seqs : /* empty */
 	}
 ;
 commands : /* empty */
+	| commands command
+	{
+		yyerror("Missing semicolon ';' ");
+	} 
 	| commands command ';'
+	
 ;
 command : SKIP
 	| IDENTIFIER ONTO '<' exp_int '>' 
@@ -321,13 +371,37 @@ command : SKIP
 	{    
 		context_check( READ_STR, $3 , 2);			
 	}
+	| WRITE '#' exp_int
+	{
+		yyerror("expected Boolean got Integer ");
+	}
+	| WRITE '@' exp_int
+	{
+		yyerror("expected String got Integer ");
+	}
 	| WRITE exp_int 
 	{	
 		gen_code( WRITE_INT, 1 );							
 	}
+	| WRITE exp_bol
+	{
+		yyerror("expected Integer got Boolean ");
+	}
+	| WRITE '@' exp_bol
+	{
+		yyerror("expected String got Boolean ");
+	}
 	| WRITE '#' exp_bol 
 	{	
 		gen_code( WRITE_BOL, 0 );						
+	}
+	| WRITE exp_str
+	{
+		yyerror("expected Integer got String ");
+	}
+	| WRITE '#' exp_str
+	{
+		yyerror("expected Boolean got String ");
 	}
 	| WRITE '@' exp_str 
 	{	
@@ -348,6 +422,10 @@ command : SKIP
 	/*=========================================================================
 								IF EXPRESSION FOR INTEGER
 	=========================================================================*/
+	| IF exp_str
+	{
+		yyerror("IF does not support String types, maybe next release! ");
+	}
 	| IF exp_int	
 	{	
 		$1 = (struct lbs *) newlblrec();
@@ -380,7 +458,7 @@ command : SKIP
 	END			
 	{ 
 		gen_code( GOTO, $1->for_goto );
-		back_patch( $1->for_jmp_false, JMP_FALSE, gen_label() );									
+		back_patch( $1->for_jmp_false, JMP_FALSE, gen_label());
 	}
 	/*=========================================================================
 							IF EXPRESSION FOR BOOLEAN
@@ -418,7 +496,7 @@ command : SKIP
 	END			
 	{ 
 		gen_code( GOTO, $1->for_goto );
-		back_patch( $1->for_jmp_false,JMP_FALSE,gen_label() );									
+		back_patch( $1->for_jmp_false,JMP_FALSE,gen_label() );	
 	}
 ;
 exp_int : NUMBER			{ gen_code( LD_INT, $1 );							}
