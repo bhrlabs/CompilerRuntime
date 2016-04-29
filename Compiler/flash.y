@@ -9,14 +9,14 @@ Members : Anant Srivastava
 Build Using : FLEX(2.6.0), BISON (GNU 3.0.4), C;		  
 
 References : Compiler Construction using Flex and Bison,
-						Anthony A. Aaby,
-			 		email :	aabyan@wwc.edu
-			 	  version of Feburary 25,2004.
+			Anthony A. Aaby,
+		     email : aabyan@wwc.edu
+		  version of Feburary 25,2004.
 	OPEN PUBLIC LISCENCE : https://opencontent.org/openpub
 =========================================================================*/
 
 %{/*************************************************************************
-					Compiler for the Flash language
+	  	Compiler for the Flash language
 ***************************************************************************/
 /*=========================================================================
 	C Libraries, Symbol Table, Code Generator & other C code
@@ -43,7 +43,7 @@ int errors;
 extern int yylineno;
 /* Error Count*/
 /*-------------------------------------------------------------------------
-				The following supports a block structure
+		The following supports a block structure
 -------------------------------------------------------------------------*/
 int fun_offset = 0;
 int arg_offset = 0; 
@@ -57,7 +57,7 @@ int reset_block()
   block_offset = 0;
 }
 /*-------------------------------------------------------------------------
-				The following support backpatching
+		The following support backpatching
 -------------------------------------------------------------------------*/
 struct lbs
 /* Labels for data, if and while*/
@@ -70,7 +70,7 @@ struct lbs * newlblrec() /*      Allocate space for the labels			*/
 	return (struct lbs *) malloc(sizeof(struct lbs));
 }
 /*-------------------------------------------------------------------------
-				Install identifier & check if previously defined.
+		Install identifier & check if previously defined.
 -------------------------------------------------------------------------*/
 install ( char *sym_name ,int type, int block)
 {
@@ -87,7 +87,7 @@ install ( char *sym_name ,int type, int block)
 	}
 }
 /*-------------------------------------------------------------------------
-				If identifier is defined, generate code
+          	If identifier is defined, generate code
 -------------------------------------------------------------------------*/
 context_check( enum code_ops operation, char *sym_name ,int type)
 {   symrec *identifier;
@@ -139,7 +139,7 @@ argument_check(char* sym_name, int arg)
 }	
 
 /*=========================================================================
-							SEMANTIC RECORDS
+				SEMANTIC RECORDS
 =========================================================================*/
 %}
 %union semrec							/* The Semantic Records*/
@@ -151,7 +151,7 @@ char *boolval;
 char *strval;						
 }
 /*=========================================================================
-								TOKENS
+				TOKENS
 =========================================================================*/
 %start program
 %token <strval> STRING					/* Flash string */
@@ -164,7 +164,7 @@ char *strval;
 %token ASSGNOP LEQ GEQ ONTO OUTFROM
 %token FUN END_FUN RETURN CALL
 /*=========================================================================
-							OPERATOR PRECEDENCE
+			OPERATOR PRECEDENCE
 =========================================================================*/
 %left '-' '+'
 %left '*' '/'
@@ -172,7 +172,7 @@ char *strval;
 %left '|' '&'
 %left '='
 /*=========================================================================
-					GRAMMAR RULES for the Simple language
+		GRAMMAR RULES for the Simple language
 =========================================================================*/
 %%
 program : 	LET
@@ -420,7 +420,7 @@ command : SKIP
 		context_check( STORE, $1 , 2);   		
 	}	
 	/*=========================================================================
-								IF EXPRESSION FOR INTEGER
+				IF EXPRESSION FOR INTEGER
 	=========================================================================*/
 	| IF exp_str
 	{
@@ -461,7 +461,7 @@ command : SKIP
 		back_patch( $1->for_jmp_false, JMP_FALSE, gen_label());
 	}
 	/*=========================================================================
-							IF EXPRESSION FOR BOOLEAN
+				IF EXPRESSION FOR BOOLEAN
 	=========================================================================*/
 	
 	| IF exp_bol	
@@ -524,7 +524,7 @@ exp_str :  STRING			{ gen_code_bool_str( LD_STR, $1 );					}
 ;
 %%
 /*=========================================================================
-MAIN
+				MAIN
 =========================================================================*/
 main( int argc, char *argv[] )
 {   extern FILE *yyin;
@@ -552,7 +552,7 @@ main( int argc, char *argv[] )
 	}
 }
 /*=========================================================================
-YYERROR
+			YYERROR
 =========================================================================*/
 yyerror ( char *s ) /* Called by yyparse on error */
 {
