@@ -7,12 +7,13 @@
  * Flash Keywords for Operations
  */
 public enum FLConstants {
-	PUSH, HALT, ARGS, DATA, IN_INT, LD_INT, LD_VAR, STORE, GOTO, OUT_INT, IN_BOL, LD_BOL, OUT_BOL,
+	HALT, DATA, IN_INT, LD_INT, LD_VAR, STORE, GOTO, OUT_INT, IN_BOL, LD_BOL, OUT_BOL,
 	IN_STR, LD_STR, OUT_STR, DEF,
 	GT, EQ, GTEQ, LT, LTEQ,
-	JMP_FALSE,CONDITION_TRUE_JUMP_TO,
+	JMP_FALSE, AND, OR,
 	ADD, SUB, MULT, DIVIDE, PWR,
-	FUN_EN, FUN_INIT, FUN_CALL, POP;
+	FUN_END, FUN_INIT, CALL, POP,
+	ADDSTK, REMSTK;
 	
 	public static boolean contains(String test) {
 	    for (FLConstants e : FLConstants.values()) {

@@ -1,7 +1,13 @@
 let
 	integer n, x, y, z, u;
 	fun fib(integer a;)
-		if a = 1 | a = 2
+		if a = 1
+		then
+		return a - 1;
+		else
+		skip;
+		fi;
+		if a = 2
 		then
 		return a - 1;
 		else
