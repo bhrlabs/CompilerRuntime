@@ -1,5 +1,7 @@
 /*=========================================================================
-TEAM : Team 31, Team Flash, Very Fast Much Wow.
+Team 31
+
+Flash 5.0 : Block structured, Strongly Typed, Procedural Programming Language.
 
 Members : Anant Srivastava
 		  Bharat Singh
@@ -160,10 +162,10 @@ char *strval;
 =========================================================================*/
 %start program
 %token <strval> STRING					/* Flash string */
-%token <boolval> BOOLEAN					/* Flash boolean */
+%token <boolval> BOOLEAN				/* Flash boolean */
 %token <intval> NUMBER					/* Flash integer */
-%token <id> IDENTIFIER								/* Flash identifier */
-%token <lbls> IF WHILE								/* For backpatching labels */
+%token <id> IDENTIFIER					/* Flash identifier */
+%token <lbls> IF WHILE					/* For backpatching labels */
 %token SKIP THEN ELSE FI DO END
 %token INTEGER READ WRITE LET IN BOOLE STR STACK
 %token ASSGNOP LEQ GEQ ONTO OUTFROM
