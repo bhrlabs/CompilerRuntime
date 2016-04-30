@@ -1,0 +1,12 @@
+let
+	integer n; string s;
+in
+	s := "Prints Numbers from User Input to 1";
+	write @s;
+	read n;
+	while ( n > 0 )
+	do
+		write n;
+		n := n - 1;
+	end;	
+end

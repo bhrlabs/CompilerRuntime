@@ -44,6 +44,11 @@ public class FlashExecutor {
 		System.out.println("<-------------- End of Execution -------------->");
 	}
 
+	/**
+	 * Executes the machine code depending on the the instruction pointer and environment pointer.
+	 * @param filePath
+	 * @throws IOException
+	 */
 	private static void executeFlClass(String filePath) throws IOException {
 
 		if (!filePath.contains(".fl.cls")) {
@@ -57,7 +62,7 @@ public class FlashExecutor {
 
 		Stack<Object> execStack = new Stack<Object>();
 		Stack<Object> callStack = new Stack<Object>();
-		HashMap<String, Object> vList = new HashMap<String, Object>();
+		HashMap<String, Object> varList = new HashMap<String, Object>();
 		HashMap<String, Function> functions = new HashMap<String, Function>();
 
 		// Getting all the lines of the file as a String Array
@@ -70,7 +75,6 @@ public class FlashExecutor {
 		int functionRefNumber = 0;
 		boolean skip = false;
 		boolean skipForFunction = false;
-		ArrayList<String> linesOfCode = new ArrayList<String>();
 		String functionName = "";
 		ArrayList<String> params = new ArrayList<String>();
 
@@ -88,8 +92,6 @@ public class FlashExecutor {
 			if (lineScanned.contains("fun_end")) {
 				skipForFunction = false;
 			}
-			if (skipForFunction)
-				linesOfCode.add(lineScanned);
 			scan = new Scanner(lineScanned);
 			skip = false;
 			while (!skip && !skipForFunction) {
@@ -129,8 +131,8 @@ public class FlashExecutor {
 					case LD_VAR:
 						if (scan.hasNext()) {
 							String var = scan.next() + "";
-							if (vList.containsKey(var)) {
-								Object val = vList.get(var);
+							if (varList.containsKey(var)) {
+								Object val = varList.get(var);
 								execStack.push(val);
 							} else {
 								System.out.println("Command LD_VAR must be followed by an Valid offset");
@@ -147,7 +149,7 @@ public class FlashExecutor {
 						Object value = execStack.pop();
 						if (scan.hasNext()) {
 							String off = scan.next();
-							vList.put(off, value);
+							varList.put(off, value);
 						} else {
 							System.out.println("Command LD_INT must be followed by an Offset");
 							System.exit(1);
@@ -231,12 +233,12 @@ public class FlashExecutor {
 						}
 						ip--;
 						for (String s : params) {
-							tmpList.put(s, vList.get(s));
+							tmpList.put(s, varList.get(s));
 						}
-						callStack.push(vList.clone());
+						callStack.push(varList.clone());
 						callStack.push(ip);
 						ip = functions.get(functionName).lineNum;
-						assignParamValues(functions.get(functionName).params, params, vList, tmpList);
+						assignParamValues(functions.get(functionName).params, params, varList, tmpList);
 						break;
 					case JMP_FALSE:
 						skipto = scan.nextInt();
@@ -272,7 +274,7 @@ public class FlashExecutor {
 							ip = (Integer) callStack.pop();
 							// num = returnLineNumber;
 						} else {
-							Function fun = new Function(functionName, functionRefNumber, params, linesOfCode);
+							Function fun = new Function(functionName, functionRefNumber, params);
 							functions.put(functionName, fun);
 						}
 						skipForFunction = false;
@@ -372,19 +374,10 @@ public class FlashExecutor {
 						}
 						break;
 					case POP:
-						/*
-						 * HashMap<String, Object> tList = new HashMap<String,
-						 * Object>(); n1 = valueStack.pop().toString(); o1 = n1;
-						 * valueStack.push(o1); if (!returnStack.isEmpty()) { ip
-						 * = (Integer) returnStack.pop(); tList =
-						 * (HashMap<String, Object>) returnStack.pop(); for
-						 * (String s : tList.keySet()) { vList.put(s,
-						 * tList.get(s)); } } scan.next();
-						 */
 						if (scan.hasNext()) {
 							//valueStack.push(vList.get(scan.next()));
 							ip = (Integer) callStack.pop();
-							vList = (HashMap<String, Object>) callStack.pop();
+							varList = (HashMap<String, Object>) callStack.pop();
 						} else {
 							System.out.println("Variable to return missing.");
 							System.exit(1);
@@ -430,7 +423,7 @@ public class FlashExecutor {
 
 							String var = scan.next() + "";
 							if (!"".equals(var)) {
-								vList.put(var, inp);
+								varList.put(var, inp);
 							}
 						} catch (InputMismatchException e) {
 							System.out.println("Input is not a valid integer. Exiting ....");
@@ -445,7 +438,7 @@ public class FlashExecutor {
 
 							String var = scan.next() + "";
 							if (!"".equals(var)) {
-								vList.put(var, inp);
+								varList.put(var, inp);
 							}
 						} catch (InputMismatchException e) {
 							System.out.println("Input is not a valid string. Exiting ....");
@@ -459,7 +452,7 @@ public class FlashExecutor {
 							boolean inpB = sc.nextBoolean();
 							String var = scan.next() + "";
 							if (!"".equals(var)) {
-								vList.put(var, inpB);
+								varList.put(var, inpB);
 							}
 						} catch (InputMismatchException e) {
 							System.out.println("Input is not a valid boolean. Exiting ....");
@@ -471,16 +464,16 @@ public class FlashExecutor {
 							String ob = scan.next();
 							if (ob.contains("str")) {
 								String v[] = ob.split("%");
-								vList.put(v[0], "");
+								varList.put(v[0], "");
 								break;
 							} else if (ob.contains("stk")) {
 								Stack<Integer> st = new Stack<Integer>();
 								String v[] = ob.split("%");
-								vList.put(v[0], st);
+								varList.put(v[0], st);
 								break;
 							} else {
 								String v[] = ob.split("%");
-								vList.put(v[0], v[1]);
+								varList.put(v[0], v[1]);
 							}
 						} else {
 							System.out.println("DEF must be followed by default value");
@@ -490,7 +483,7 @@ public class FlashExecutor {
 					case ADDSTK:
 						if (scan.hasNext()) {
 							String offset = scan.next();
-							Stack<Integer> st = (Stack<Integer>) vList.get(offset);
+							Stack<Integer> st = (Stack<Integer>) varList.get(offset);
 							st.push((int) execStack.pop());
 						} else {
 							System.out.println("ADDSTK must be followed by an offset");
@@ -500,7 +493,7 @@ public class FlashExecutor {
 					case REMSTK:
 						if (scan.hasNext()) {
 							String offset = scan.next();
-							Stack<Integer> st = (Stack<Integer>) vList.get(offset);
+							Stack<Integer> st = (Stack<Integer>) varList.get(offset);
 							execStack.push(st.pop());
 						} else {
 							System.out.println("REMSTK must be followed by an offset");
