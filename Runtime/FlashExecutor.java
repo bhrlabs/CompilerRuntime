@@ -55,7 +55,7 @@ public class FlashExecutor {
 
 		FLConstants cmd = null;
 
-		Stack<Object> valueStack = new Stack<Object>();
+		Stack<Object> execStack = new Stack<Object>();
 		Stack<Object> callStack = new Stack<Object>();
 		HashMap<String, Object> vList = new HashMap<String, Object>();
 		HashMap<String, Function> functions = new HashMap<String, Function>();
@@ -104,7 +104,7 @@ public class FlashExecutor {
 					case LD_INT:
 						if (scan.hasNextInt()) {
 							int number = scan.nextInt();
-							valueStack.push(number);
+							execStack.push(number);
 						} else {
 							System.out.println("Command LD_INT must be followed by an Integer");
 							System.exit(1);
@@ -115,12 +115,12 @@ public class FlashExecutor {
 						while (scan.hasNext()) {
 							stg = stg + " " + scan.next();
 						}
-						valueStack.push(stg);
+						execStack.push(stg);
 						break;
 					case LD_BOL:
 						if (scan.hasNextBoolean()) {
 							boolean bool = scan.nextBoolean();
-							valueStack.push(bool);
+							execStack.push(bool);
 						} else {
 							System.out.println("Command LD_BOL must be followed by an Boolean");
 							System.exit(1);
@@ -131,7 +131,7 @@ public class FlashExecutor {
 							String var = scan.next() + "";
 							if (vList.containsKey(var)) {
 								Object val = vList.get(var);
-								valueStack.push(val);
+								execStack.push(val);
 							} else {
 								System.out.println("Command LD_VAR must be followed by an Valid offset");
 								System.out.println("Intruction Pointer at: " + ip);
@@ -144,7 +144,7 @@ public class FlashExecutor {
 						}
 						break;
 					case STORE:
-						Object value = valueStack.pop();
+						Object value = execStack.pop();
 						if (scan.hasNext()) {
 							String off = scan.next();
 							vList.put(off, value);
@@ -164,7 +164,7 @@ public class FlashExecutor {
 					case OUT_INT:
 						if (scan.hasNext()) {
 							int off = scan.nextInt(); // Not Used
-							System.out.println(valueStack.pop() + "");
+							System.out.println(execStack.pop() + "");
 						} else {
 							System.out.println("Command OUT_INT must be followed by an Offset");
 							System.exit(1);
@@ -173,7 +173,7 @@ public class FlashExecutor {
 					case OUT_STR:
 						if (scan.hasNext()) {
 							int off = scan.nextInt(); // Not Used
-							String output = valueStack.pop() + "";
+							String output = execStack.pop() + "";
 							output = output.replace("\"", "");
 							System.out.println(output.trim());
 						} else {
@@ -184,23 +184,23 @@ public class FlashExecutor {
 					case OUT_BOL:
 						if (scan.hasNext()) {
 							int off = scan.nextInt(); // Not Used
-							System.out.println(valueStack.pop());
+							System.out.println(execStack.pop());
 						} else {
 							System.out.println("Command OUT_BOL must be followed by an Offset");
 							System.exit(1);
 						}
 						break;
 					case ADD:
-						String n1 = valueStack.pop().toString();
-						String n2 = valueStack.pop().toString();
+						String n1 = execStack.pop().toString();
+						String n2 = execStack.pop().toString();
 						String o1 = n1;
 						String o2 = n2;
 						if (!o1.contains("\"") && !(o2.contains("\"")) && !o1.matches("\\D+") && !o2.matches("\\D+")) {
 							int d1 = Integer.valueOf(o1);
 							int d2 = Integer.valueOf(o2);
-							valueStack.push(d2 + d1);
+							execStack.push(d2 + d1);
 						} else {
-							valueStack.push("\"" + o2.replaceAll("\"", "").concat(o1.replaceAll("\"", "")) + "\"");
+							execStack.push("\"" + o2.replaceAll("\"", "").concat(o1.replaceAll("\"", "")) + "\"");
 						}
 						if (scan.hasNext()) {
 							int tmp1 = scan.nextInt(); // Not Used
@@ -240,21 +240,21 @@ public class FlashExecutor {
 						break;
 					case JMP_FALSE:
 						skipto = scan.nextInt();
-						if (!(Boolean) valueStack.pop()) {
+						if (!(Boolean) execStack.pop()) {
 							skip = true;
 						} else {
 							skipto = ip;
 						}
 						break;
 					case DIVIDE:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
 							int d1 = Integer.valueOf(o1);
 							int d2 = Integer.valueOf(o2);
-							valueStack.push(d2 / d1);
+							execStack.push(d2 / d1);
 						}
 						if (scan.hasNext()) {
 							int tmp1 = scan.nextInt(); // Not Used
@@ -308,64 +308,64 @@ public class FlashExecutor {
 						functionRefNumber = ip;
 						break;
 					case GT:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
 						int d1 = Integer.valueOf(o1);
 						int d2 = Integer.valueOf(o2);
-						valueStack.push(d2 > d1);
+						execStack.push(d2 > d1);
 						String tmp = scan.next(); // Not used
 						break;
 					case EQ:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
 						d1 = Integer.valueOf(o1);
 						d2 = Integer.valueOf(o2);
-						valueStack.push(d2 == d1);
+						execStack.push(d2 == d1);
 						tmp = scan.next(); // Not used
 						break;
 					case GTEQ:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
 						d1 = Integer.valueOf(o1);
 						d2 = Integer.valueOf(o2);
-						valueStack.push(d2 >= d1);
+						execStack.push(d2 >= d1);
 						tmp = scan.next(); // Not used
 						break;
 					case LT:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
 						d1 = Integer.valueOf(o1);
 						d2 = Integer.valueOf(o2);
-						valueStack.push(d2 < d1);
+						execStack.push(d2 < d1);
 						tmp = scan.next(); // Not used
 						break;
 					case LTEQ:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
 						d1 = Integer.valueOf(o1);
 						d2 = Integer.valueOf(o2);
-						valueStack.push(d2 <= d1);
+						execStack.push(d2 <= d1);
 						tmp = scan.next(); // Not used
 						break;
 					case MULT:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
 							d1 = Integer.valueOf(o1);
 							d2 = Integer.valueOf(o2);
-							valueStack.push(d2 * d1);
+							execStack.push(d2 * d1);
 						}
 						if (scan.hasNext()) {
 							int tmp1 = scan.nextInt(); // Not Used
@@ -392,29 +392,29 @@ public class FlashExecutor {
 						scan.next();
 						break;
 					case SUB:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
 							d1 = Integer.valueOf(o1);
 							d2 = Integer.valueOf(o2);
-							valueStack.push(d2 - d1);
+							execStack.push(d2 - d1);
 						}
 						if (scan.hasNext()) {
 							int tmp1 = scan.nextInt(); // Not Used
 						}
 						break;
 					case PWR:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						o1 = n1;
 						o2 = n2;
 						if (!o1.contains("\"") || !(o2.contains("\""))) {
 							d1 = Integer.valueOf(o1);
 							d2 = Integer.valueOf(o2);
 							int ans = (int) Math.pow(d2, d1);
-							valueStack.push(ans);
+							execStack.push(ans);
 						}
 						if (scan.hasNext()) {
 							int tmp1 = scan.nextInt(); // Not Used
@@ -491,7 +491,7 @@ public class FlashExecutor {
 						if (scan.hasNext()) {
 							String offset = scan.next();
 							Stack<Integer> st = (Stack<Integer>) vList.get(offset);
-							st.push((int) valueStack.pop());
+							st.push((int) execStack.pop());
 						} else {
 							System.out.println("ADDSTK must be followed by an offset");
 							System.exit(1);
@@ -501,33 +501,33 @@ public class FlashExecutor {
 						if (scan.hasNext()) {
 							String offset = scan.next();
 							Stack<Integer> st = (Stack<Integer>) vList.get(offset);
-							valueStack.push(st.pop());
+							execStack.push(st.pop());
 						} else {
 							System.out.println("REMSTK must be followed by an offset");
 							System.exit(1);
 						}
 						break;
 					case AND:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						boolean b1;
 						boolean b2;
 						if (!n1.contains("\"") || !(n2.contains("\""))) {
 							b1 = Boolean.valueOf(n1);
 							b2 = Boolean.valueOf(n2);
-							valueStack.push(b2 && b1);
+							execStack.push(b2 && b1);
 						}
 						if (scan.hasNext()) {
 							int tmp1 = scan.nextInt(); // Not Used
 						}
 						break;
 					case OR:
-						n1 = valueStack.pop().toString();
-						n2 = valueStack.pop().toString();
+						n1 = execStack.pop().toString();
+						n2 = execStack.pop().toString();
 						if (!n1.contains("\"") || !(n2.contains("\""))) {
 							b1 = Boolean.valueOf(n1);
 							b2 = Boolean.valueOf(n2);
-							valueStack.push(b2 || b1);
+							execStack.push(b2 || b1);
 						}
 						if (scan.hasNext()) {
 							int tmp1 = scan.nextInt(); // Not Used

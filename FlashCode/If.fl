@@ -1,0 +1,11 @@
+let 
+	integer i;
+in
+	read i;
+	if (i < 10) then
+		i := i + 100; 
+	else
+		i := i - 10;
+	fi;
+	write i;
+end

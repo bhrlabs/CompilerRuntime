@@ -4,7 +4,7 @@
  * 
  * Flash Programming Language
  * 
- * Flash Keywords for Operations
+ * Flash Keywords/Commands for Operations
  */
 public enum FLConstants {
 	HALT, DATA, IN_INT, LD_INT, LD_VAR, STORE, GOTO, OUT_INT, IN_BOL, LD_BOL, OUT_BOL,
@@ -15,9 +15,9 @@ public enum FLConstants {
 	FUN_END, FUN_INIT, CALL, POP,
 	ADDSTK, REMSTK;
 	
-	public static boolean contains(String test) {
+	public static boolean contains(String command) {
 	    for (FLConstants e : FLConstants.values()) {
-	        if (e.name().toLowerCase().equals(test)) {
+	        if (e.name().toLowerCase().equals(command)) {
 	            return true;
 	        }
 	    }

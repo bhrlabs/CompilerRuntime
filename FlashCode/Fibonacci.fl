@@ -1,0 +1,26 @@
+let
+	integer n, x, y, z, u;
+	fun fib(integer a;)
+		if a = 1
+		then
+		return a - 1;
+		else
+		skip;
+		fi;
+		if a = 2
+		then
+		return a - 1;
+		else
+		skip;
+		fi;
+		z := a - 1;
+		u := a - 2;
+		x := call fib(z);
+		y := call fib(u);
+		return x+y;
+	end_fun
+in
+	read n;
+	x := call fib(n);
+	write x;
+end
