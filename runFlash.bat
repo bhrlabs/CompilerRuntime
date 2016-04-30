@@ -2,7 +2,6 @@ echo off
 set /p CFile= "Enter the file name to execute?  "
 setx CFile "%CFile%"
 echo %CFile%
-echo Starting conversion of .fl file to Intermediate code .fl .cls
 "%cd%\Compiler\flash.exe" "%cd%\FlashCode\%CFile%"
 echo Intermediate Code Generated in Runtime folder with a .fl.cls extension
 echo Press a key to Execute Intermediate Code ans see the result

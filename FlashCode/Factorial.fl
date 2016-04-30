@@ -13,7 +13,7 @@ let
 	end_fun
 in
 	read n;
-	x := call fact(n);
+	x := call fact(s1);
 	s1 := "Factorial output is: ";
 	write @s1;
 	write x;

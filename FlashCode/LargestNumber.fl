@@ -1,0 +1,31 @@
+let
+	integer n, i;
+	integer max;
+	stack st;
+	string s;
+in
+	i := 5;
+	while (i>0) do
+		read n;
+		st.onto<n>;
+		i := i-1;
+	end;
+	
+	max := 0;
+	i := 5;
+	while (i>0) do
+		n := st.outfrom;
+		i := i-1;
+		if max < n then
+			max := n;
+		else
+			skip;
+		fi;
+	end;
+	
+	s := "Maximum Number is: ";
+	write @s;
+	
+	write max;
+
+end

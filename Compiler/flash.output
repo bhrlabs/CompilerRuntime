@@ -23,11 +23,11 @@ Grammar
 
     0 $accept: program $end
 
-    1 $@1: %empty
+    1 $@1: /* empty */
 
     2 program: LET declaration functions IN $@1 commands END
 
-    3 declaration: %empty
+    3 declaration: /* empty */
     4            | declaration declarations
 
     5 declarations: SKIP
@@ -40,14 +40,14 @@ Grammar
    12             | STACK IDENTIFIER
    13             | STACK IDENTIFIER ';'
 
-   14 functions: %empty
+   14 functions: /* empty */
    15          | functions fun
 
-   16 $@2: %empty
+   16 $@2: /* empty */
 
    17 fun: FUN IDENTIFIER $@2 '(' parameter ')' declaration commands END_FUN
 
-   18 parameter: %empty
+   18 parameter: /* empty */
    19          | parameter parameters
 
    20 parameters: SKIP
@@ -58,22 +58,22 @@ Grammar
    25           | STR IDENTIFIER
    26           | STR IDENTIFIER ';'
 
-   27 arguments: %empty
+   27 arguments: /* empty */
    28          | argument IDENTIFIER
 
-   29 argument: %empty
+   29 argument: /* empty */
    30         | argument IDENTIFIER ','
 
-   31 id_seqi: %empty
+   31 id_seqi: /* empty */
    32        | id_seqi IDENTIFIER ','
 
-   33 id_seqb: %empty
+   33 id_seqb: /* empty */
    34        | id_seqb IDENTIFIER ','
 
-   35 id_seqs: %empty
+   35 id_seqs: /* empty */
    36        | id_seqs IDENTIFIER ','
 
-   37 commands: %empty
+   37 commands: /* empty */
    38         | commands command
    39         | commands command ';'
 
@@ -82,11 +82,11 @@ Grammar
    42        | IDENTIFIER ASSGNOP IDENTIFIER OUTFROM
    43        | RETURN exp_int
 
-   44 $@3: %empty
+   44 $@3: /* empty */
 
    45 command: CALL IDENTIFIER $@3 '(' arguments ')'
 
-   46 $@4: %empty
+   46 $@4: /* empty */
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER $@4 '(' arguments ')'
    48        | READ IDENTIFIER
@@ -100,31 +100,31 @@ Grammar
    56        | IDENTIFIER ASSGNOP exp_str
    57        | IF exp_str
 
-   58 $@5: %empty
+   58 $@5: /* empty */
 
-   59 $@6: %empty
+   59 $@6: /* empty */
 
-   60 $@7: %empty
+   60 $@7: /* empty */
 
    61 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 commands FI
 
-   62 $@8: %empty
+   62 $@8: /* empty */
 
-   63 $@9: %empty
+   63 $@9: /* empty */
 
    64 command: WHILE $@8 exp_int $@9 DO commands END
 
-   65 $@10: %empty
+   65 $@10: /* empty */
 
-   66 $@11: %empty
+   66 $@11: /* empty */
 
-   67 $@12: %empty
+   67 $@12: /* empty */
 
    68 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 commands FI
 
-   69 $@13: %empty
+   69 $@13: /* empty */
 
-   70 $@14: %empty
+   70 $@14: /* empty */
 
    71 command: WHILE $@13 exp_bol $@14 DO commands END
 
@@ -275,7 +275,7 @@ exp_str (80)
     on left: 89 90 91, on right: 53 56 57 91
 
 
-State 0
+state 0
 
     0 $accept: . program $end
 
@@ -284,7 +284,7 @@ State 0
     program  go to state 2
 
 
-State 1
+state 1
 
     2 program: LET . declaration functions IN $@1 commands END
 
@@ -293,14 +293,14 @@ State 1
     declaration  go to state 3
 
 
-State 2
+state 2
 
     0 $accept: program . $end
 
     $end  shift, and go to state 4
 
 
-State 3
+state 3
 
     2 program: LET declaration . functions IN $@1 commands END
     4 declaration: declaration . declarations
@@ -317,21 +317,21 @@ State 3
     functions     go to state 11
 
 
-State 4
+state 4
 
     0 $accept: program $end .
 
     $default  accept
 
 
-State 5
+state 5
 
     5 declarations: SKIP .
 
     $default  reduce using rule 5 (declarations)
 
 
-State 6
+state 6
 
     6 declarations: INTEGER . id_seqi IDENTIFIER
     7             | INTEGER . id_seqi IDENTIFIER ';'
@@ -341,7 +341,7 @@ State 6
     id_seqi  go to state 12
 
 
-State 7
+state 7
 
     8 declarations: BOOLE . id_seqb IDENTIFIER
     9             | BOOLE . id_seqb IDENTIFIER ';'
@@ -355,7 +355,7 @@ State 7
     id_seqs  go to state 14
 
 
-State 8
+state 8
 
    11 declarations: STR . id_seqs IDENTIFIER ';'
 
@@ -364,7 +364,7 @@ State 8
     id_seqs  go to state 15
 
 
-State 9
+state 9
 
    12 declarations: STACK . IDENTIFIER
    13             | STACK . IDENTIFIER ';'
@@ -372,14 +372,14 @@ State 9
     IDENTIFIER  shift, and go to state 16
 
 
-State 10
+state 10
 
     4 declaration: declaration declarations .
 
     $default  reduce using rule 4 (declaration)
 
 
-State 11
+state 11
 
     2 program: LET declaration functions . IN $@1 commands END
    15 functions: functions . fun
@@ -390,7 +390,7 @@ State 11
     fun  go to state 19
 
 
-State 12
+state 12
 
     6 declarations: INTEGER id_seqi . IDENTIFIER
     7             | INTEGER id_seqi . IDENTIFIER ';'
@@ -399,7 +399,7 @@ State 12
     IDENTIFIER  shift, and go to state 20
 
 
-State 13
+state 13
 
     8 declarations: BOOLE id_seqb . IDENTIFIER
     9             | BOOLE id_seqb . IDENTIFIER ';'
@@ -408,7 +408,7 @@ State 13
     IDENTIFIER  shift, and go to state 21
 
 
-State 14
+state 14
 
    10 declarations: BOOLE id_seqs . IDENTIFIER
    36 id_seqs: id_seqs . IDENTIFIER ','
@@ -416,7 +416,7 @@ State 14
     IDENTIFIER  shift, and go to state 22
 
 
-State 15
+state 15
 
    11 declarations: STR id_seqs . IDENTIFIER ';'
    36 id_seqs: id_seqs . IDENTIFIER ','
@@ -424,7 +424,7 @@ State 15
     IDENTIFIER  shift, and go to state 23
 
 
-State 16
+state 16
 
    12 declarations: STACK IDENTIFIER .
    13             | STACK IDENTIFIER . ';'
@@ -434,7 +434,7 @@ State 16
     $default  reduce using rule 12 (declarations)
 
 
-State 17
+state 17
 
     2 program: LET declaration functions IN . $@1 commands END
 
@@ -443,21 +443,21 @@ State 17
     $@1  go to state 25
 
 
-State 18
+state 18
 
    17 fun: FUN . IDENTIFIER $@2 '(' parameter ')' declaration commands END_FUN
 
     IDENTIFIER  shift, and go to state 26
 
 
-State 19
+state 19
 
    15 functions: functions fun .
 
     $default  reduce using rule 15 (functions)
 
 
-State 20
+state 20
 
     6 declarations: INTEGER id_seqi IDENTIFIER .
     7             | INTEGER id_seqi IDENTIFIER . ';'
@@ -469,7 +469,7 @@ State 20
     $default  reduce using rule 6 (declarations)
 
 
-State 21
+state 21
 
     8 declarations: BOOLE id_seqb IDENTIFIER .
     9             | BOOLE id_seqb IDENTIFIER . ';'
@@ -481,7 +481,7 @@ State 21
     $default  reduce using rule 8 (declarations)
 
 
-State 22
+state 22
 
    10 declarations: BOOLE id_seqs IDENTIFIER .
    36 id_seqs: id_seqs IDENTIFIER . ','
@@ -491,7 +491,7 @@ State 22
     $default  reduce using rule 10 (declarations)
 
 
-State 23
+state 23
 
    11 declarations: STR id_seqs IDENTIFIER . ';'
    36 id_seqs: id_seqs IDENTIFIER . ','
@@ -500,14 +500,14 @@ State 23
     ','  shift, and go to state 31
 
 
-State 24
+state 24
 
    13 declarations: STACK IDENTIFIER ';' .
 
     $default  reduce using rule 13 (declarations)
 
 
-State 25
+state 25
 
     2 program: LET declaration functions IN $@1 . commands END
 
@@ -516,7 +516,7 @@ State 25
     commands  go to state 33
 
 
-State 26
+state 26
 
    17 fun: FUN IDENTIFIER . $@2 '(' parameter ')' declaration commands END_FUN
 
@@ -525,49 +525,49 @@ State 26
     $@2  go to state 34
 
 
-State 27
+state 27
 
     7 declarations: INTEGER id_seqi IDENTIFIER ';' .
 
     $default  reduce using rule 7 (declarations)
 
 
-State 28
+state 28
 
    32 id_seqi: id_seqi IDENTIFIER ',' .
 
     $default  reduce using rule 32 (id_seqi)
 
 
-State 29
+state 29
 
     9 declarations: BOOLE id_seqb IDENTIFIER ';' .
 
     $default  reduce using rule 9 (declarations)
 
 
-State 30
+state 30
 
    34 id_seqb: id_seqb IDENTIFIER ',' .
 
     $default  reduce using rule 34 (id_seqb)
 
 
-State 31
+state 31
 
    36 id_seqs: id_seqs IDENTIFIER ',' .
 
     $default  reduce using rule 36 (id_seqs)
 
 
-State 32
+state 32
 
    11 declarations: STR id_seqs IDENTIFIER ';' .
 
     $default  reduce using rule 11 (declarations)
 
 
-State 33
+state 33
 
     2 program: LET declaration functions IN $@1 commands . END
    38 commands: commands . command
@@ -586,14 +586,14 @@ State 33
     command  go to state 44
 
 
-State 34
+state 34
 
    17 fun: FUN IDENTIFIER $@2 . '(' parameter ')' declaration commands END_FUN
 
     '('  shift, and go to state 45
 
 
-State 35
+state 35
 
    41 command: IDENTIFIER . ONTO '<' exp_int '>'
    42        | IDENTIFIER . ASSGNOP IDENTIFIER OUTFROM
@@ -606,7 +606,7 @@ State 35
     ONTO     shift, and go to state 47
 
 
-State 36
+state 36
 
    57 command: IF . exp_str
    61        | IF . exp_int $@5 THEN commands $@6 ELSE $@7 commands FI
@@ -623,7 +623,7 @@ State 36
     exp_str  go to state 55
 
 
-State 37
+state 37
 
    64 command: WHILE . $@8 exp_int $@9 DO commands END
    71        | WHILE . $@13 exp_bol $@14 DO commands END
@@ -637,21 +637,21 @@ State 37
     $@13  go to state 57
 
 
-State 38
+state 38
 
    40 command: SKIP .
 
     $default  reduce using rule 40 (command)
 
 
-State 39
+state 39
 
     2 program: LET declaration functions IN $@1 commands END .
 
     $default  reduce using rule 2 (program)
 
 
-State 40
+state 40
 
    48 command: READ . IDENTIFIER
    49        | READ . '#' IDENTIFIER
@@ -662,7 +662,7 @@ State 40
     '@'         shift, and go to state 60
 
 
-State 41
+state 41
 
    51 command: WRITE . exp_int
    52        | WRITE . '#' exp_bol
@@ -677,7 +677,7 @@ State 41
     exp_int  go to state 64
 
 
-State 42
+state 42
 
    43 command: RETURN . exp_int
 
@@ -688,14 +688,14 @@ State 42
     exp_int  go to state 65
 
 
-State 43
+state 43
 
    45 command: CALL . IDENTIFIER $@3 '(' arguments ')'
 
     IDENTIFIER  shift, and go to state 66
 
 
-State 44
+state 44
 
    38 commands: commands command .
    39         | commands command . ';'
@@ -705,7 +705,7 @@ State 44
     $default  reduce using rule 38 (commands)
 
 
-State 45
+state 45
 
    17 fun: FUN IDENTIFIER $@2 '(' . parameter ')' declaration commands END_FUN
 
@@ -714,7 +714,7 @@ State 45
     parameter  go to state 68
 
 
-State 46
+state 46
 
    42 command: IDENTIFIER ASSGNOP . IDENTIFIER OUTFROM
    47        | IDENTIFIER ASSGNOP . CALL IDENTIFIER $@4 '(' arguments ')'
@@ -734,35 +734,35 @@ State 46
     exp_str  go to state 73
 
 
-State 47
+state 47
 
    41 command: IDENTIFIER ONTO . '<' exp_int '>'
 
     '<'  shift, and go to state 74
 
 
-State 48
+state 48
 
    89 exp_str: STRING .
 
     $default  reduce using rule 89 (exp_str)
 
 
-State 49
+state 49
 
    87 exp_bol: BOOLEAN .
 
     $default  reduce using rule 87 (exp_bol)
 
 
-State 50
+state 50
 
    72 exp_int: NUMBER .
 
     $default  reduce using rule 72 (exp_int)
 
 
-State 51
+state 51
 
    73 exp_int: IDENTIFIER .
    88 exp_bol: IDENTIFIER .
@@ -785,7 +785,7 @@ State 51
     $default  reduce using rule 90 (exp_str)
 
 
-State 52
+state 52
 
    86 exp_int: '(' . exp_int ')'
 
@@ -796,7 +796,7 @@ State 52
     exp_int  go to state 75
 
 
-State 53
+state 53
 
    61 command: IF exp_int . $@5 THEN commands $@6 ELSE $@7 commands FI
    74 exp_int: exp_int . '<' exp_int
@@ -830,7 +830,7 @@ State 53
     $@5  go to state 88
 
 
-State 54
+state 54
 
    68 command: IF exp_bol . $@10 THEN commands $@11 ELSE $@12 commands FI
 
@@ -839,7 +839,7 @@ State 54
     $@10  go to state 89
 
 
-State 55
+state 55
 
    57 command: IF exp_str .
    91 exp_str: exp_str . '.' exp_str
@@ -849,7 +849,7 @@ State 55
     $default  reduce using rule 57 (command)
 
 
-State 56
+state 56
 
    64 command: WHILE $@8 . exp_int $@9 DO commands END
 
@@ -860,7 +860,7 @@ State 56
     exp_int  go to state 91
 
 
-State 57
+state 57
 
    71 command: WHILE $@13 . exp_bol $@14 DO commands END
 
@@ -870,35 +870,35 @@ State 57
     exp_bol  go to state 93
 
 
-State 58
+state 58
 
    48 command: READ IDENTIFIER .
 
     $default  reduce using rule 48 (command)
 
 
-State 59
+state 59
 
    49 command: READ '#' . IDENTIFIER
 
     IDENTIFIER  shift, and go to state 94
 
 
-State 60
+state 60
 
    50 command: READ '@' . IDENTIFIER
 
     IDENTIFIER  shift, and go to state 95
 
 
-State 61
+state 61
 
    73 exp_int: IDENTIFIER .
 
     $default  reduce using rule 73 (exp_int)
 
 
-State 62
+state 62
 
    52 command: WRITE '#' . exp_bol
 
@@ -908,7 +908,7 @@ State 62
     exp_bol  go to state 96
 
 
-State 63
+state 63
 
    53 command: WRITE '@' . exp_str
 
@@ -918,7 +918,7 @@ State 63
     exp_str  go to state 98
 
 
-State 64
+state 64
 
    51 command: WRITE exp_int .
    74 exp_int: exp_int . '<' exp_int
@@ -950,7 +950,7 @@ State 64
     $default  reduce using rule 51 (command)
 
 
-State 65
+state 65
 
    43 command: RETURN exp_int .
    74 exp_int: exp_int . '<' exp_int
@@ -982,7 +982,7 @@ State 65
     $default  reduce using rule 43 (command)
 
 
-State 66
+state 66
 
    45 command: CALL IDENTIFIER . $@3 '(' arguments ')'
 
@@ -991,14 +991,14 @@ State 66
     $@3  go to state 99
 
 
-State 67
+state 67
 
    39 commands: commands command ';' .
 
     $default  reduce using rule 39 (commands)
 
 
-State 68
+state 68
 
    17 fun: FUN IDENTIFIER $@2 '(' parameter . ')' declaration commands END_FUN
    19 parameter: parameter . parameters
@@ -1012,7 +1012,7 @@ State 68
     parameters  go to state 105
 
 
-State 69
+state 69
 
    42 command: IDENTIFIER ASSGNOP IDENTIFIER . OUTFROM
    73 exp_int: IDENTIFIER .
@@ -1064,14 +1064,14 @@ State 69
     $default    reduce using rule 73 (exp_int)
 
 
-State 70
+state 70
 
    47 command: IDENTIFIER ASSGNOP CALL . IDENTIFIER $@4 '(' arguments ')'
 
     IDENTIFIER  shift, and go to state 107
 
 
-State 71
+state 71
 
    54 command: IDENTIFIER ASSGNOP exp_int .
    74 exp_int: exp_int . '<' exp_int
@@ -1103,14 +1103,14 @@ State 71
     $default  reduce using rule 54 (command)
 
 
-State 72
+state 72
 
    55 command: IDENTIFIER ASSGNOP exp_bol .
 
     $default  reduce using rule 55 (command)
 
 
-State 73
+state 73
 
    56 command: IDENTIFIER ASSGNOP exp_str .
    91 exp_str: exp_str . '.' exp_str
@@ -1120,7 +1120,7 @@ State 73
     $default  reduce using rule 56 (command)
 
 
-State 74
+state 74
 
    41 command: IDENTIFIER ONTO '<' . exp_int '>'
 
@@ -1131,7 +1131,7 @@ State 74
     exp_int  go to state 108
 
 
-State 75
+state 75
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1162,7 +1162,7 @@ State 75
     '>'  shift, and go to state 87
 
 
-State 76
+state 76
 
    78 exp_int: exp_int LEQ . exp_int
 
@@ -1173,7 +1173,7 @@ State 76
     exp_int  go to state 110
 
 
-State 77
+state 77
 
    77 exp_int: exp_int GEQ . exp_int
 
@@ -1184,7 +1184,7 @@ State 77
     exp_int  go to state 111
 
 
-State 78
+state 78
 
    80 exp_int: exp_int '-' . exp_int
 
@@ -1195,7 +1195,7 @@ State 78
     exp_int  go to state 112
 
 
-State 79
+state 79
 
    79 exp_int: exp_int '+' . exp_int
 
@@ -1206,7 +1206,7 @@ State 79
     exp_int  go to state 113
 
 
-State 80
+state 80
 
    81 exp_int: exp_int '*' . exp_int
 
@@ -1217,7 +1217,7 @@ State 80
     exp_int  go to state 114
 
 
-State 81
+state 81
 
    82 exp_int: exp_int '/' . exp_int
 
@@ -1228,7 +1228,7 @@ State 81
     exp_int  go to state 115
 
 
-State 82
+state 82
 
    83 exp_int: exp_int '^' . exp_int
 
@@ -1239,7 +1239,7 @@ State 82
     exp_int  go to state 116
 
 
-State 83
+state 83
 
    84 exp_int: exp_int '|' . exp_int
 
@@ -1250,7 +1250,7 @@ State 83
     exp_int  go to state 117
 
 
-State 84
+state 84
 
    85 exp_int: exp_int '&' . exp_int
 
@@ -1261,7 +1261,7 @@ State 84
     exp_int  go to state 118
 
 
-State 85
+state 85
 
    75 exp_int: exp_int '=' . exp_int
 
@@ -1272,7 +1272,7 @@ State 85
     exp_int  go to state 119
 
 
-State 86
+state 86
 
    74 exp_int: exp_int '<' . exp_int
 
@@ -1283,7 +1283,7 @@ State 86
     exp_int  go to state 120
 
 
-State 87
+state 87
 
    76 exp_int: exp_int '>' . exp_int
 
@@ -1294,21 +1294,21 @@ State 87
     exp_int  go to state 121
 
 
-State 88
+state 88
 
    61 command: IF exp_int $@5 . THEN commands $@6 ELSE $@7 commands FI
 
     THEN  shift, and go to state 122
 
 
-State 89
+state 89
 
    68 command: IF exp_bol $@10 . THEN commands $@11 ELSE $@12 commands FI
 
     THEN  shift, and go to state 123
 
 
-State 90
+state 90
 
    91 exp_str: exp_str '.' . exp_str
 
@@ -1318,7 +1318,7 @@ State 90
     exp_str  go to state 124
 
 
-State 91
+state 91
 
    64 command: WHILE $@8 exp_int . $@9 DO commands END
    74 exp_int: exp_int . '<' exp_int
@@ -1352,14 +1352,14 @@ State 91
     $@9  go to state 125
 
 
-State 92
+state 92
 
    88 exp_bol: IDENTIFIER .
 
     $default  reduce using rule 88 (exp_bol)
 
 
-State 93
+state 93
 
    71 command: WHILE $@13 exp_bol . $@14 DO commands END
 
@@ -1368,35 +1368,35 @@ State 93
     $@14  go to state 126
 
 
-State 94
+state 94
 
    49 command: READ '#' IDENTIFIER .
 
     $default  reduce using rule 49 (command)
 
 
-State 95
+state 95
 
    50 command: READ '@' IDENTIFIER .
 
     $default  reduce using rule 50 (command)
 
 
-State 96
+state 96
 
    52 command: WRITE '#' exp_bol .
 
     $default  reduce using rule 52 (command)
 
 
-State 97
+state 97
 
    90 exp_str: IDENTIFIER .
 
     $default  reduce using rule 90 (exp_str)
 
 
-State 98
+state 98
 
    53 command: WRITE '@' exp_str .
    91 exp_str: exp_str . '.' exp_str
@@ -1406,21 +1406,21 @@ State 98
     $default  reduce using rule 53 (command)
 
 
-State 99
+state 99
 
    45 command: CALL IDENTIFIER $@3 . '(' arguments ')'
 
     '('  shift, and go to state 127
 
 
-State 100
+state 100
 
    20 parameters: SKIP .
 
     $default  reduce using rule 20 (parameters)
 
 
-State 101
+state 101
 
    21 parameters: INTEGER . IDENTIFIER
    22           | INTEGER . IDENTIFIER ';'
@@ -1428,7 +1428,7 @@ State 101
     IDENTIFIER  shift, and go to state 128
 
 
-State 102
+state 102
 
    23 parameters: BOOLE . IDENTIFIER
    24           | BOOLE . IDENTIFIER ';'
@@ -1436,7 +1436,7 @@ State 102
     IDENTIFIER  shift, and go to state 129
 
 
-State 103
+state 103
 
    25 parameters: STR . IDENTIFIER
    26           | STR . IDENTIFIER ';'
@@ -1444,7 +1444,7 @@ State 103
     IDENTIFIER  shift, and go to state 130
 
 
-State 104
+state 104
 
    17 fun: FUN IDENTIFIER $@2 '(' parameter ')' . declaration commands END_FUN
 
@@ -1453,21 +1453,21 @@ State 104
     declaration  go to state 131
 
 
-State 105
+state 105
 
    19 parameter: parameter parameters .
 
     $default  reduce using rule 19 (parameter)
 
 
-State 106
+state 106
 
    42 command: IDENTIFIER ASSGNOP IDENTIFIER OUTFROM .
 
     $default  reduce using rule 42 (command)
 
 
-State 107
+state 107
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER . $@4 '(' arguments ')'
 
@@ -1476,7 +1476,7 @@ State 107
     $@4  go to state 132
 
 
-State 108
+state 108
 
    41 command: IDENTIFIER ONTO '<' exp_int . '>'
    74 exp_int: exp_int . '<' exp_int
@@ -1506,14 +1506,14 @@ State 108
     '>'  shift, and go to state 133
 
 
-State 109
+state 109
 
    86 exp_int: '(' exp_int ')' .
 
     $default  reduce using rule 86 (exp_int)
 
 
-State 110
+state 110
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1557,7 +1557,7 @@ State 110
     $default  reduce using rule 78 (exp_int)
 
 
-State 111
+state 111
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1601,7 +1601,7 @@ State 111
     $default  reduce using rule 77 (exp_int)
 
 
-State 112
+state 112
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1635,7 +1635,7 @@ State 112
     $default  reduce using rule 80 (exp_int)
 
 
-State 113
+state 113
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1669,7 +1669,7 @@ State 113
     $default  reduce using rule 79 (exp_int)
 
 
-State 114
+state 114
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1701,7 +1701,7 @@ State 114
     $default  reduce using rule 81 (exp_int)
 
 
-State 115
+state 115
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1733,7 +1733,7 @@ State 115
     $default  reduce using rule 82 (exp_int)
 
 
-State 116
+state 116
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1765,7 +1765,7 @@ State 116
     $default  reduce using rule 83 (exp_int)
 
 
-State 117
+state 117
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1794,7 +1794,7 @@ State 117
     $default  reduce using rule 84 (exp_int)
 
 
-State 118
+state 118
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1823,7 +1823,7 @@ State 118
     $default  reduce using rule 85 (exp_int)
 
 
-State 119
+state 119
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1851,7 +1851,7 @@ State 119
     $default  reduce using rule 75 (exp_int)
 
 
-State 120
+state 120
 
    74 exp_int: exp_int . '<' exp_int
    74        | exp_int '<' exp_int .
@@ -1895,7 +1895,7 @@ State 120
     $default  reduce using rule 74 (exp_int)
 
 
-State 121
+state 121
 
    74 exp_int: exp_int . '<' exp_int
    75        | exp_int . '=' exp_int
@@ -1939,7 +1939,7 @@ State 121
     $default  reduce using rule 76 (exp_int)
 
 
-State 122
+state 122
 
    61 command: IF exp_int $@5 THEN . commands $@6 ELSE $@7 commands FI
 
@@ -1948,7 +1948,7 @@ State 122
     commands  go to state 134
 
 
-State 123
+state 123
 
    68 command: IF exp_bol $@10 THEN . commands $@11 ELSE $@12 commands FI
 
@@ -1957,7 +1957,7 @@ State 123
     commands  go to state 135
 
 
-State 124
+state 124
 
    91 exp_str: exp_str . '.' exp_str
    91        | exp_str '.' exp_str .
@@ -1968,21 +1968,21 @@ State 124
     $default  reduce using rule 91 (exp_str)
 
 
-State 125
+state 125
 
    64 command: WHILE $@8 exp_int $@9 . DO commands END
 
     DO  shift, and go to state 136
 
 
-State 126
+state 126
 
    71 command: WHILE $@13 exp_bol $@14 . DO commands END
 
     DO  shift, and go to state 137
 
 
-State 127
+state 127
 
    45 command: CALL IDENTIFIER $@3 '(' . arguments ')'
 
@@ -1993,7 +1993,7 @@ State 127
     argument   go to state 139
 
 
-State 128
+state 128
 
    21 parameters: INTEGER IDENTIFIER .
    22           | INTEGER IDENTIFIER . ';'
@@ -2003,7 +2003,7 @@ State 128
     $default  reduce using rule 21 (parameters)
 
 
-State 129
+state 129
 
    23 parameters: BOOLE IDENTIFIER .
    24           | BOOLE IDENTIFIER . ';'
@@ -2013,7 +2013,7 @@ State 129
     $default  reduce using rule 23 (parameters)
 
 
-State 130
+state 130
 
    25 parameters: STR IDENTIFIER .
    26           | STR IDENTIFIER . ';'
@@ -2023,7 +2023,7 @@ State 130
     $default  reduce using rule 25 (parameters)
 
 
-State 131
+state 131
 
     4 declaration: declaration . declarations
    17 fun: FUN IDENTIFIER $@2 '(' parameter ')' declaration . commands END_FUN
@@ -2041,14 +2041,14 @@ State 131
     commands      go to state 143
 
 
-State 132
+state 132
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER $@4 . '(' arguments ')'
 
     '('  shift, and go to state 144
 
 
-State 133
+state 133
 
    41 command: IDENTIFIER ONTO '<' exp_int '>' .
    76 exp_int: exp_int '>' . exp_int
@@ -2063,7 +2063,7 @@ State 133
     exp_int  go to state 121
 
 
-State 134
+state 134
 
    38 commands: commands . command
    39         | commands . command ';'
@@ -2084,7 +2084,7 @@ State 134
     $@6      go to state 145
 
 
-State 135
+state 135
 
    38 commands: commands . command
    39         | commands . command ';'
@@ -2105,7 +2105,7 @@ State 135
     $@11     go to state 146
 
 
-State 136
+state 136
 
    64 command: WHILE $@8 exp_int $@9 DO . commands END
 
@@ -2114,7 +2114,7 @@ State 136
     commands  go to state 147
 
 
-State 137
+state 137
 
    71 command: WHILE $@13 exp_bol $@14 DO . commands END
 
@@ -2123,14 +2123,14 @@ State 137
     commands  go to state 148
 
 
-State 138
+state 138
 
    45 command: CALL IDENTIFIER $@3 '(' arguments . ')'
 
     ')'  shift, and go to state 149
 
 
-State 139
+state 139
 
    28 arguments: argument . IDENTIFIER
    30 argument: argument . IDENTIFIER ','
@@ -2138,28 +2138,28 @@ State 139
     IDENTIFIER  shift, and go to state 150
 
 
-State 140
+state 140
 
    22 parameters: INTEGER IDENTIFIER ';' .
 
     $default  reduce using rule 22 (parameters)
 
 
-State 141
+state 141
 
    24 parameters: BOOLE IDENTIFIER ';' .
 
     $default  reduce using rule 24 (parameters)
 
 
-State 142
+state 142
 
    26 parameters: STR IDENTIFIER ';' .
 
     $default  reduce using rule 26 (parameters)
 
 
-State 143
+state 143
 
    17 fun: FUN IDENTIFIER $@2 '(' parameter ')' declaration commands . END_FUN
    38 commands: commands . command
@@ -2178,7 +2178,7 @@ State 143
     command  go to state 44
 
 
-State 144
+state 144
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER $@4 '(' . arguments ')'
 
@@ -2189,21 +2189,21 @@ State 144
     argument   go to state 139
 
 
-State 145
+state 145
 
    61 command: IF exp_int $@5 THEN commands $@6 . ELSE $@7 commands FI
 
     ELSE  shift, and go to state 153
 
 
-State 146
+state 146
 
    68 command: IF exp_bol $@10 THEN commands $@11 . ELSE $@12 commands FI
 
     ELSE  shift, and go to state 154
 
 
-State 147
+state 147
 
    38 commands: commands . command
    39         | commands . command ';'
@@ -2222,7 +2222,7 @@ State 147
     command  go to state 44
 
 
-State 148
+state 148
 
    38 commands: commands . command
    39         | commands . command ';'
@@ -2241,14 +2241,14 @@ State 148
     command  go to state 44
 
 
-State 149
+state 149
 
    45 command: CALL IDENTIFIER $@3 '(' arguments ')' .
 
     $default  reduce using rule 45 (command)
 
 
-State 150
+state 150
 
    28 arguments: argument IDENTIFIER .
    30 argument: argument IDENTIFIER . ','
@@ -2258,21 +2258,21 @@ State 150
     $default  reduce using rule 28 (arguments)
 
 
-State 151
+state 151
 
    17 fun: FUN IDENTIFIER $@2 '(' parameter ')' declaration commands END_FUN .
 
     $default  reduce using rule 17 (fun)
 
 
-State 152
+state 152
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER $@4 '(' arguments . ')'
 
     ')'  shift, and go to state 158
 
 
-State 153
+state 153
 
    61 command: IF exp_int $@5 THEN commands $@6 ELSE . $@7 commands FI
 
@@ -2281,7 +2281,7 @@ State 153
     $@7  go to state 159
 
 
-State 154
+state 154
 
    68 command: IF exp_bol $@10 THEN commands $@11 ELSE . $@12 commands FI
 
@@ -2290,35 +2290,35 @@ State 154
     $@12  go to state 160
 
 
-State 155
+state 155
 
    64 command: WHILE $@8 exp_int $@9 DO commands END .
 
     $default  reduce using rule 64 (command)
 
 
-State 156
+state 156
 
    71 command: WHILE $@13 exp_bol $@14 DO commands END .
 
     $default  reduce using rule 71 (command)
 
 
-State 157
+state 157
 
    30 argument: argument IDENTIFIER ',' .
 
     $default  reduce using rule 30 (argument)
 
 
-State 158
+state 158
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER $@4 '(' arguments ')' .
 
     $default  reduce using rule 47 (command)
 
 
-State 159
+state 159
 
    61 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 . commands FI
 
@@ -2327,7 +2327,7 @@ State 159
     commands  go to state 161
 
 
-State 160
+state 160
 
    68 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 . commands FI
 
@@ -2336,7 +2336,7 @@ State 160
     commands  go to state 162
 
 
-State 161
+state 161
 
    38 commands: commands . command
    39         | commands . command ';'
@@ -2355,7 +2355,7 @@ State 161
     command  go to state 44
 
 
-State 162
+state 162
 
    38 commands: commands . command
    39         | commands . command ';'
@@ -2374,14 +2374,14 @@ State 162
     command  go to state 44
 
 
-State 163
+state 163
 
    61 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 commands FI .
 
     $default  reduce using rule 61 (command)
 
 
-State 164
+state 164
 
    68 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 commands FI .
 

@@ -272,6 +272,7 @@ public class FlashExecutor {
 
 						if (!callStack.isEmpty()) {
 							ip = (Integer) callStack.pop();
+							varList = (HashMap<String, Object>) callStack.pop();
 							// num = returnLineNumber;
 						} else {
 							Function fun = new Function(functionName, functionRefNumber, params);
@@ -374,15 +375,11 @@ public class FlashExecutor {
 						}
 						break;
 					case POP:
+						ip = (Integer) callStack.pop();
+						varList = (HashMap<String, Object>) callStack.pop();
 						if (scan.hasNext()) {
-							//valueStack.push(vList.get(scan.next()));
-							ip = (Integer) callStack.pop();
-							varList = (HashMap<String, Object>) callStack.pop();
-						} else {
-							System.out.println("Variable to return missing.");
-							System.exit(1);
-						}
-						scan.next();
+							scan.next();
+						} 
 						break;
 					case SUB:
 						n1 = execStack.pop().toString();
