@@ -64,7 +64,7 @@ struct instruction
 
 /* CODE Array */
 
-struct instruction code[999];
+struct instruction code[9999];
 
 /* RUN-TIME Stack */
 

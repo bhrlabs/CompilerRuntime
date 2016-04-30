@@ -78,9 +78,14 @@ install ( char *sym_name ,int type, int block)
 	s = getsym (sym_name);
 	if (s == 0) {
 		s = putsym (sym_name,type, block);
+		//printf("%s, %d\n",s->name,s->block_offset);
+	}
+	else if (s->block_offset == 0) {
+		yyerror( strcat(sym_name, " is alredy defined in the outer block") );
 	}
 	else if (s->block_offset != block){
 		s = putsym (sym_name,type, block);
+		//printf("%s, %d\n",s->name,s->block_offset);
 	}
 	else { errors++;
 		yyerror( strcat(sym_name, " is already defined") );
@@ -371,37 +376,13 @@ command : SKIP
 	{    
 		context_check( READ_STR, $3 , 2);			
 	}
-	| WRITE '#' exp_int
-	{
-		yyerror("expected Boolean got Integer ");
-	}
-	| WRITE '@' exp_int
-	{
-		yyerror("expected String got Integer ");
-	}
 	| WRITE exp_int 
 	{	
 		gen_code( WRITE_INT, 1 );							
 	}
-	| WRITE exp_bol
-	{
-		yyerror("expected Integer got Boolean ");
-	}
-	| WRITE '@' exp_bol
-	{
-		yyerror("expected String got Boolean ");
-	}
 	| WRITE '#' exp_bol 
 	{	
 		gen_code( WRITE_BOL, 0 );						
-	}
-	| WRITE exp_str
-	{
-		yyerror("expected Integer got String ");
-	}
-	| WRITE '#' exp_str
-	{
-		yyerror("expected Boolean got String ");
 	}
 	| WRITE '@' exp_str 
 	{	
@@ -500,7 +481,7 @@ command : SKIP
 	}
 ;
 exp_int : NUMBER			{ gen_code( LD_INT, $1 );							}
-	| IDENTIFIER			{ context_check( LD_VAR, $1 , -1);					}
+	| IDENTIFIER			{ context_check( LD_VAR, $1 , 1);					}
 	| exp_int '<' exp_int	{ gen_code( LT, 0 );								}
 	| exp_int '=' exp_int	{ gen_code( EQ, 0 );								}
 	| exp_int '>' exp_int	{ gen_code( GT, 0 );								}
@@ -516,10 +497,10 @@ exp_int : NUMBER			{ gen_code( LD_INT, $1 );							}
 	| '(' exp_int ')'
 ;
 exp_bol :  BOOLEAN			{ gen_code_bool_str( LD_BOL, $1 );					}
-	| IDENTIFIER			{ context_check( LD_VAR, $1 ,-1);					}
+	| IDENTIFIER			{ context_check( LD_VAR, $1 ,0);					}
 ;
 exp_str :  STRING			{ gen_code_bool_str( LD_STR, $1 );					}
-	| IDENTIFIER			{ context_check( LD_VAR, $1 ,-1);					}
+	| IDENTIFIER			{ context_check( LD_VAR, $1 ,2);					}
 	| exp_str '.' exp_str 	{ gen_code(ADD_STR, 0);								}  
 ;
 %%

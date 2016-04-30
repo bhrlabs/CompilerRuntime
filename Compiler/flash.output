@@ -1,22 +1,22 @@
 State 7 conflicts: 1 reduce/reduce
 State 37 conflicts: 1 reduce/reduce
-State 51 conflicts: 14 reduce/reduce
-State 71 conflicts: 13 reduce/reduce
-State 115 conflicts: 12 shift/reduce
-State 116 conflicts: 12 shift/reduce
+State 51 conflicts: 1 reduce/reduce
+State 69 conflicts: 13 reduce/reduce
+State 110 conflicts: 12 shift/reduce
+State 111 conflicts: 12 shift/reduce
+State 112 conflicts: 4 shift/reduce
+State 113 conflicts: 4 shift/reduce
+State 114 conflicts: 4 shift/reduce
+State 115 conflicts: 4 shift/reduce
+State 116 conflicts: 4 shift/reduce
 State 117 conflicts: 4 shift/reduce
 State 118 conflicts: 4 shift/reduce
 State 119 conflicts: 4 shift/reduce
-State 120 conflicts: 4 shift/reduce
-State 121 conflicts: 4 shift/reduce
-State 122 conflicts: 4 shift/reduce
-State 123 conflicts: 4 shift/reduce
-State 124 conflicts: 4 shift/reduce
-State 125 conflicts: 12 shift/reduce
-State 126 conflicts: 12 shift/reduce
-State 130 conflicts: 1 shift/reduce
-State 137 conflicts: 1 shift/reduce
-State 139 conflicts: 1 shift/reduce
+State 120 conflicts: 12 shift/reduce
+State 121 conflicts: 12 shift/reduce
+State 124 conflicts: 1 shift/reduce
+State 131 conflicts: 1 shift/reduce
+State 133 conflicts: 1 shift/reduce
 
 
 Grammar
@@ -92,117 +92,111 @@ Grammar
    48        | READ IDENTIFIER
    49        | READ '#' IDENTIFIER
    50        | READ '@' IDENTIFIER
-   51        | WRITE '#' exp_int
-   52        | WRITE '@' exp_int
-   53        | WRITE exp_int
-   54        | WRITE exp_bol
-   55        | WRITE '@' exp_bol
-   56        | WRITE '#' exp_bol
-   57        | WRITE exp_str
-   58        | WRITE '#' exp_str
-   59        | WRITE '@' exp_str
-   60        | IDENTIFIER ASSGNOP exp_int
-   61        | IDENTIFIER ASSGNOP exp_bol
-   62        | IDENTIFIER ASSGNOP exp_str
-   63        | IF exp_str
+   51        | WRITE exp_int
+   52        | WRITE '#' exp_bol
+   53        | WRITE '@' exp_str
+   54        | IDENTIFIER ASSGNOP exp_int
+   55        | IDENTIFIER ASSGNOP exp_bol
+   56        | IDENTIFIER ASSGNOP exp_str
+   57        | IF exp_str
 
-   64 $@5: %empty
+   58 $@5: %empty
 
-   65 $@6: %empty
+   59 $@6: %empty
 
-   66 $@7: %empty
+   60 $@7: %empty
 
-   67 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 commands FI
+   61 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 commands FI
 
-   68 $@8: %empty
+   62 $@8: %empty
 
-   69 $@9: %empty
+   63 $@9: %empty
 
-   70 command: WHILE $@8 exp_int $@9 DO commands END
+   64 command: WHILE $@8 exp_int $@9 DO commands END
 
-   71 $@10: %empty
+   65 $@10: %empty
 
-   72 $@11: %empty
+   66 $@11: %empty
 
-   73 $@12: %empty
+   67 $@12: %empty
 
-   74 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 commands FI
+   68 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 commands FI
 
-   75 $@13: %empty
+   69 $@13: %empty
 
-   76 $@14: %empty
+   70 $@14: %empty
 
-   77 command: WHILE $@13 exp_bol $@14 DO commands END
+   71 command: WHILE $@13 exp_bol $@14 DO commands END
 
-   78 exp_int: NUMBER
-   79        | IDENTIFIER
-   80        | exp_int '<' exp_int
-   81        | exp_int '=' exp_int
-   82        | exp_int '>' exp_int
-   83        | exp_int GEQ exp_int
-   84        | exp_int LEQ exp_int
-   85        | exp_int '+' exp_int
-   86        | exp_int '-' exp_int
-   87        | exp_int '*' exp_int
-   88        | exp_int '/' exp_int
-   89        | exp_int '^' exp_int
-   90        | exp_int '|' exp_int
-   91        | exp_int '&' exp_int
-   92        | '(' exp_int ')'
+   72 exp_int: NUMBER
+   73        | IDENTIFIER
+   74        | exp_int '<' exp_int
+   75        | exp_int '=' exp_int
+   76        | exp_int '>' exp_int
+   77        | exp_int GEQ exp_int
+   78        | exp_int LEQ exp_int
+   79        | exp_int '+' exp_int
+   80        | exp_int '-' exp_int
+   81        | exp_int '*' exp_int
+   82        | exp_int '/' exp_int
+   83        | exp_int '^' exp_int
+   84        | exp_int '|' exp_int
+   85        | exp_int '&' exp_int
+   86        | '(' exp_int ')'
 
-   93 exp_bol: BOOLEAN
-   94        | IDENTIFIER
+   87 exp_bol: BOOLEAN
+   88        | IDENTIFIER
 
-   95 exp_str: STRING
-   96        | IDENTIFIER
-   97        | exp_str '.' exp_str
+   89 exp_str: STRING
+   90        | IDENTIFIER
+   91        | exp_str '.' exp_str
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'#' (35) 49 51 56 58
-'&' (38) 91
-'(' (40) 17 45 47 92
-')' (41) 17 45 47 92
-'*' (42) 87
-'+' (43) 85
+'#' (35) 49 52
+'&' (38) 85
+'(' (40) 17 45 47 86
+')' (41) 17 45 47 86
+'*' (42) 81
+'+' (43) 79
 ',' (44) 30 32 34 36
-'-' (45) 86
-'.' (46) 97
-'/' (47) 88
+'-' (45) 80
+'.' (46) 91
+'/' (47) 82
 ';' (59) 7 9 11 13 22 24 26 39
-'<' (60) 41 80
-'=' (61) 81
-'>' (62) 41 82
-'@' (64) 50 52 55 59
-'^' (94) 89
-'|' (124) 90
+'<' (60) 41 74
+'=' (61) 75
+'>' (62) 41 76
+'@' (64) 50 53
+'^' (94) 83
+'|' (124) 84
 error (256)
-STRING (258) 95
-BOOLEAN (259) 93
-NUMBER (260) 78
+STRING (258) 89
+BOOLEAN (259) 87
+NUMBER (260) 72
 IDENTIFIER (261) 6 7 8 9 10 11 12 13 17 21 22 23 24 25 26 28 30 32
-    34 36 41 42 45 47 48 49 50 60 61 62 79 94 96
-IF (262) 63 67 74
-WHILE (263) 70 77
+    34 36 41 42 45 47 48 49 50 54 55 56 73 88 90
+IF (262) 57 61 68
+WHILE (263) 64 71
 SKIP (264) 5 20 40
-THEN (265) 67 74
-ELSE (266) 67 74
-FI (267) 67 74
-DO (268) 70 77
-END (269) 2 70 77
+THEN (265) 61 68
+ELSE (266) 61 68
+FI (267) 61 68
+DO (268) 64 71
+END (269) 2 64 71
 INTEGER (270) 6 7 21 22
 READ (271) 48 49 50
-WRITE (272) 51 52 53 54 55 56 57 58 59
+WRITE (272) 51 52 53
 LET (273) 2
 IN (274) 2
 BOOLE (275) 8 9 10 23 24
 STR (276) 11 25 26
 STACK (277) 12 13
-ASSGNOP (278) 42 47 60 61 62
-LEQ (279) 84
-GEQ (280) 83
+ASSGNOP (278) 42 47 54 55 56
+LEQ (279) 78
+GEQ (280) 77
 ONTO (281) 41
 OUTFROM (282) 42
 FUN (283) 17
@@ -244,41 +238,41 @@ id_seqb (62)
 id_seqs (63)
     on left: 35 36, on right: 10 11 36
 commands (64)
-    on left: 37 38 39, on right: 2 17 38 39 67 70 74 77
+    on left: 37 38 39, on right: 2 17 38 39 61 64 68 71
 command (65)
-    on left: 40 41 42 43 45 47 48 49 50 51 52 53 54 55 56 57 58 59
-    60 61 62 63 67 70 74 77, on right: 38 39
+    on left: 40 41 42 43 45 47 48 49 50 51 52 53 54 55 56 57 61 64
+    68 71, on right: 38 39
 $@3 (66)
     on left: 44, on right: 45
 $@4 (67)
     on left: 46, on right: 47
 $@5 (68)
-    on left: 64, on right: 67
+    on left: 58, on right: 61
 $@6 (69)
-    on left: 65, on right: 67
+    on left: 59, on right: 61
 $@7 (70)
-    on left: 66, on right: 67
+    on left: 60, on right: 61
 $@8 (71)
-    on left: 68, on right: 70
+    on left: 62, on right: 64
 $@9 (72)
-    on left: 69, on right: 70
+    on left: 63, on right: 64
 $@10 (73)
-    on left: 71, on right: 74
+    on left: 65, on right: 68
 $@11 (74)
-    on left: 72, on right: 74
+    on left: 66, on right: 68
 $@12 (75)
-    on left: 73, on right: 74
+    on left: 67, on right: 68
 $@13 (76)
-    on left: 75, on right: 77
+    on left: 69, on right: 71
 $@14 (77)
-    on left: 76, on right: 77
+    on left: 70, on right: 71
 exp_int (78)
-    on left: 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92, on right:
-    41 43 51 52 53 60 67 70 80 81 82 83 84 85 86 87 88 89 90 91 92
+    on left: 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86, on right:
+    41 43 51 54 61 64 74 75 76 77 78 79 80 81 82 83 84 85 86
 exp_bol (79)
-    on left: 93 94, on right: 54 55 56 61 74 77
+    on left: 87 88, on right: 52 55 68 71
 exp_str (80)
-    on left: 95 96 97, on right: 57 58 59 62 63 97
+    on left: 89 90 91, on right: 53 56 57 91
 
 
 State 0
@@ -604,9 +598,9 @@ State 35
    41 command: IDENTIFIER . ONTO '<' exp_int '>'
    42        | IDENTIFIER . ASSGNOP IDENTIFIER OUTFROM
    47        | IDENTIFIER . ASSGNOP CALL IDENTIFIER $@4 '(' arguments ')'
-   60        | IDENTIFIER . ASSGNOP exp_int
-   61        | IDENTIFIER . ASSGNOP exp_bol
-   62        | IDENTIFIER . ASSGNOP exp_str
+   54        | IDENTIFIER . ASSGNOP exp_int
+   55        | IDENTIFIER . ASSGNOP exp_bol
+   56        | IDENTIFIER . ASSGNOP exp_str
 
     ASSGNOP  shift, and go to state 46
     ONTO     shift, and go to state 47
@@ -614,9 +608,9 @@ State 35
 
 State 36
 
-   63 command: IF . exp_str
-   67        | IF . exp_int $@5 THEN commands $@6 ELSE $@7 commands FI
-   74        | IF . exp_bol $@10 THEN commands $@11 ELSE $@12 commands FI
+   57 command: IF . exp_str
+   61        | IF . exp_int $@5 THEN commands $@6 ELSE $@7 commands FI
+   68        | IF . exp_bol $@10 THEN commands $@11 ELSE $@12 commands FI
 
     STRING      shift, and go to state 48
     BOOLEAN     shift, and go to state 49
@@ -631,13 +625,13 @@ State 36
 
 State 37
 
-   70 command: WHILE . $@8 exp_int $@9 DO commands END
-   77        | WHILE . $@13 exp_bol $@14 DO commands END
+   64 command: WHILE . $@8 exp_int $@9 DO commands END
+   71        | WHILE . $@13 exp_bol $@14 DO commands END
 
-    BOOLEAN     reduce using rule 75 ($@13)
-    IDENTIFIER  reduce using rule 68 ($@8)
-    IDENTIFIER  [reduce using rule 75 ($@13)]
-    $default    reduce using rule 68 ($@8)
+    BOOLEAN     reduce using rule 69 ($@13)
+    IDENTIFIER  reduce using rule 62 ($@8)
+    IDENTIFIER  [reduce using rule 69 ($@13)]
+    $default    reduce using rule 62 ($@8)
 
     $@8   go to state 56
     $@13  go to state 57
@@ -670,27 +664,17 @@ State 40
 
 State 41
 
-   51 command: WRITE . '#' exp_int
-   52        | WRITE . '@' exp_int
-   53        | WRITE . exp_int
-   54        | WRITE . exp_bol
-   55        | WRITE . '@' exp_bol
-   56        | WRITE . '#' exp_bol
-   57        | WRITE . exp_str
-   58        | WRITE . '#' exp_str
-   59        | WRITE . '@' exp_str
+   51 command: WRITE . exp_int
+   52        | WRITE . '#' exp_bol
+   53        | WRITE . '@' exp_str
 
-    STRING      shift, and go to state 48
-    BOOLEAN     shift, and go to state 49
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 51
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
-    '#'         shift, and go to state 61
-    '@'         shift, and go to state 62
+    '#'         shift, and go to state 62
+    '@'         shift, and go to state 63
 
-    exp_int  go to state 63
-    exp_bol  go to state 64
-    exp_str  go to state 65
+    exp_int  go to state 64
 
 
 State 42
@@ -698,17 +682,17 @@ State 42
    43 command: RETURN . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
-    exp_int  go to state 67
+    exp_int  go to state 65
 
 
 State 43
 
    45 command: CALL . IDENTIFIER $@3 '(' arguments ')'
 
-    IDENTIFIER  shift, and go to state 68
+    IDENTIFIER  shift, and go to state 66
 
 
 State 44
@@ -716,7 +700,7 @@ State 44
    38 commands: commands command .
    39         | commands command . ';'
 
-    ';'  shift, and go to state 69
+    ';'  shift, and go to state 67
 
     $default  reduce using rule 38 (commands)
 
@@ -727,191 +711,163 @@ State 45
 
     $default  reduce using rule 18 (parameter)
 
-    parameter  go to state 70
+    parameter  go to state 68
 
 
 State 46
 
    42 command: IDENTIFIER ASSGNOP . IDENTIFIER OUTFROM
    47        | IDENTIFIER ASSGNOP . CALL IDENTIFIER $@4 '(' arguments ')'
-   60        | IDENTIFIER ASSGNOP . exp_int
-   61        | IDENTIFIER ASSGNOP . exp_bol
-   62        | IDENTIFIER ASSGNOP . exp_str
+   54        | IDENTIFIER ASSGNOP . exp_int
+   55        | IDENTIFIER ASSGNOP . exp_bol
+   56        | IDENTIFIER ASSGNOP . exp_str
 
     STRING      shift, and go to state 48
     BOOLEAN     shift, and go to state 49
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 71
-    CALL        shift, and go to state 72
+    IDENTIFIER  shift, and go to state 69
+    CALL        shift, and go to state 70
     '('         shift, and go to state 52
 
-    exp_int  go to state 73
-    exp_bol  go to state 74
-    exp_str  go to state 75
+    exp_int  go to state 71
+    exp_bol  go to state 72
+    exp_str  go to state 73
 
 
 State 47
 
    41 command: IDENTIFIER ONTO . '<' exp_int '>'
 
-    '<'  shift, and go to state 76
+    '<'  shift, and go to state 74
 
 
 State 48
 
-   95 exp_str: STRING .
+   89 exp_str: STRING .
 
-    $default  reduce using rule 95 (exp_str)
+    $default  reduce using rule 89 (exp_str)
 
 
 State 49
 
-   93 exp_bol: BOOLEAN .
+   87 exp_bol: BOOLEAN .
 
-    $default  reduce using rule 93 (exp_bol)
+    $default  reduce using rule 87 (exp_bol)
 
 
 State 50
 
-   78 exp_int: NUMBER .
+   72 exp_int: NUMBER .
 
-    $default  reduce using rule 78 (exp_int)
+    $default  reduce using rule 72 (exp_int)
 
 
 State 51
 
-   79 exp_int: IDENTIFIER .
-   94 exp_bol: IDENTIFIER .
-   96 exp_str: IDENTIFIER .
+   73 exp_int: IDENTIFIER .
+   88 exp_bol: IDENTIFIER .
+   90 exp_str: IDENTIFIER .
 
-    IDENTIFIER  reduce using rule 79 (exp_int)
-    IDENTIFIER  [reduce using rule 94 (exp_bol)]
-    IDENTIFIER  [reduce using rule 96 (exp_str)]
-    IF          reduce using rule 79 (exp_int)
-    IF          [reduce using rule 94 (exp_bol)]
-    IF          [reduce using rule 96 (exp_str)]
-    WHILE       reduce using rule 79 (exp_int)
-    WHILE       [reduce using rule 94 (exp_bol)]
-    WHILE       [reduce using rule 96 (exp_str)]
-    SKIP        reduce using rule 79 (exp_int)
-    SKIP        [reduce using rule 94 (exp_bol)]
-    SKIP        [reduce using rule 96 (exp_str)]
-    THEN        reduce using rule 79 (exp_int)
-    THEN        [reduce using rule 94 (exp_bol)]
-    ELSE        reduce using rule 79 (exp_int)
-    ELSE        [reduce using rule 94 (exp_bol)]
-    ELSE        [reduce using rule 96 (exp_str)]
-    FI          reduce using rule 79 (exp_int)
-    FI          [reduce using rule 94 (exp_bol)]
-    FI          [reduce using rule 96 (exp_str)]
-    END         reduce using rule 79 (exp_int)
-    END         [reduce using rule 94 (exp_bol)]
-    END         [reduce using rule 96 (exp_str)]
-    READ        reduce using rule 79 (exp_int)
-    READ        [reduce using rule 94 (exp_bol)]
-    READ        [reduce using rule 96 (exp_str)]
-    WRITE       reduce using rule 79 (exp_int)
-    WRITE       [reduce using rule 94 (exp_bol)]
-    WRITE       [reduce using rule 96 (exp_str)]
-    END_FUN     reduce using rule 79 (exp_int)
-    END_FUN     [reduce using rule 94 (exp_bol)]
-    END_FUN     [reduce using rule 96 (exp_str)]
-    RETURN      reduce using rule 79 (exp_int)
-    RETURN      [reduce using rule 94 (exp_bol)]
-    RETURN      [reduce using rule 96 (exp_str)]
-    CALL        reduce using rule 79 (exp_int)
-    CALL        [reduce using rule 94 (exp_bol)]
-    CALL        [reduce using rule 96 (exp_str)]
-    ';'         reduce using rule 79 (exp_int)
-    ';'         [reduce using rule 94 (exp_bol)]
-    ';'         [reduce using rule 96 (exp_str)]
-    '.'         reduce using rule 96 (exp_str)
-    $default    reduce using rule 79 (exp_int)
+    THEN      reduce using rule 73 (exp_int)
+    THEN      [reduce using rule 88 (exp_bol)]
+    LEQ       reduce using rule 73 (exp_int)
+    GEQ       reduce using rule 73 (exp_int)
+    '-'       reduce using rule 73 (exp_int)
+    '+'       reduce using rule 73 (exp_int)
+    '*'       reduce using rule 73 (exp_int)
+    '/'       reduce using rule 73 (exp_int)
+    '^'       reduce using rule 73 (exp_int)
+    '|'       reduce using rule 73 (exp_int)
+    '&'       reduce using rule 73 (exp_int)
+    '='       reduce using rule 73 (exp_int)
+    '<'       reduce using rule 73 (exp_int)
+    '>'       reduce using rule 73 (exp_int)
+    $default  reduce using rule 90 (exp_str)
 
 
 State 52
 
-   92 exp_int: '(' . exp_int ')'
+   86 exp_int: '(' . exp_int ')'
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
-    exp_int  go to state 77
+    exp_int  go to state 75
 
 
 State 53
 
-   67 command: IF exp_int . $@5 THEN commands $@6 ELSE $@7 commands FI
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   61 command: IF exp_int . $@5 THEN commands $@6 ELSE $@7 commands FI
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
-    $default  reduce using rule 64 ($@5)
+    $default  reduce using rule 58 ($@5)
 
-    $@5  go to state 90
+    $@5  go to state 88
 
 
 State 54
 
-   74 command: IF exp_bol . $@10 THEN commands $@11 ELSE $@12 commands FI
+   68 command: IF exp_bol . $@10 THEN commands $@11 ELSE $@12 commands FI
 
-    $default  reduce using rule 71 ($@10)
+    $default  reduce using rule 65 ($@10)
 
-    $@10  go to state 91
+    $@10  go to state 89
 
 
 State 55
 
-   63 command: IF exp_str .
-   97 exp_str: exp_str . '.' exp_str
+   57 command: IF exp_str .
+   91 exp_str: exp_str . '.' exp_str
 
-    '.'  shift, and go to state 92
+    '.'  shift, and go to state 90
 
-    $default  reduce using rule 63 (command)
+    $default  reduce using rule 57 (command)
 
 
 State 56
 
-   70 command: WHILE $@8 . exp_int $@9 DO commands END
+   64 command: WHILE $@8 . exp_int $@9 DO commands END
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
-    exp_int  go to state 93
+    exp_int  go to state 91
 
 
 State 57
 
-   77 command: WHILE $@13 . exp_bol $@14 DO commands END
+   71 command: WHILE $@13 . exp_bol $@14 DO commands END
 
     BOOLEAN     shift, and go to state 49
-    IDENTIFIER  shift, and go to state 94
+    IDENTIFIER  shift, and go to state 92
 
-    exp_bol  go to state 95
+    exp_bol  go to state 93
 
 
 State 58
@@ -925,826 +881,885 @@ State 59
 
    49 command: READ '#' . IDENTIFIER
 
-    IDENTIFIER  shift, and go to state 96
+    IDENTIFIER  shift, and go to state 94
 
 
 State 60
 
    50 command: READ '@' . IDENTIFIER
 
-    IDENTIFIER  shift, and go to state 97
+    IDENTIFIER  shift, and go to state 95
 
 
 State 61
 
-   51 command: WRITE '#' . exp_int
-   56        | WRITE '#' . exp_bol
-   58        | WRITE '#' . exp_str
+   73 exp_int: IDENTIFIER .
 
-    STRING      shift, and go to state 48
-    BOOLEAN     shift, and go to state 49
-    NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 51
-    '('         shift, and go to state 52
-
-    exp_int  go to state 98
-    exp_bol  go to state 99
-    exp_str  go to state 100
+    $default  reduce using rule 73 (exp_int)
 
 
 State 62
 
-   52 command: WRITE '@' . exp_int
-   55        | WRITE '@' . exp_bol
-   59        | WRITE '@' . exp_str
+   52 command: WRITE '#' . exp_bol
 
-    STRING      shift, and go to state 48
     BOOLEAN     shift, and go to state 49
-    NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 51
-    '('         shift, and go to state 52
+    IDENTIFIER  shift, and go to state 92
 
-    exp_int  go to state 101
-    exp_bol  go to state 102
-    exp_str  go to state 103
+    exp_bol  go to state 96
 
 
 State 63
 
-   53 command: WRITE exp_int .
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   53 command: WRITE '@' . exp_str
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    STRING      shift, and go to state 48
+    IDENTIFIER  shift, and go to state 97
 
-    $default  reduce using rule 53 (command)
+    exp_str  go to state 98
 
 
 State 64
 
-   54 command: WRITE exp_bol .
+   51 command: WRITE exp_int .
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    $default  reduce using rule 54 (command)
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
+
+    $default  reduce using rule 51 (command)
 
 
 State 65
 
-   57 command: WRITE exp_str .
-   97 exp_str: exp_str . '.' exp_str
-
-    '.'  shift, and go to state 92
-
-    $default  reduce using rule 57 (command)
-
-
-State 66
-
-   79 exp_int: IDENTIFIER .
-
-    $default  reduce using rule 79 (exp_int)
-
-
-State 67
-
    43 command: RETURN exp_int .
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
     $default  reduce using rule 43 (command)
 
 
-State 68
+State 66
 
    45 command: CALL IDENTIFIER . $@3 '(' arguments ')'
 
     $default  reduce using rule 44 ($@3)
 
-    $@3  go to state 104
+    $@3  go to state 99
 
 
-State 69
+State 67
 
    39 commands: commands command ';' .
 
     $default  reduce using rule 39 (commands)
 
 
-State 70
+State 68
 
    17 fun: FUN IDENTIFIER $@2 '(' parameter . ')' declaration commands END_FUN
    19 parameter: parameter . parameters
 
-    SKIP     shift, and go to state 105
-    INTEGER  shift, and go to state 106
-    BOOLE    shift, and go to state 107
-    STR      shift, and go to state 108
-    ')'      shift, and go to state 109
+    SKIP     shift, and go to state 100
+    INTEGER  shift, and go to state 101
+    BOOLE    shift, and go to state 102
+    STR      shift, and go to state 103
+    ')'      shift, and go to state 104
 
-    parameters  go to state 110
+    parameters  go to state 105
+
+
+State 69
+
+   42 command: IDENTIFIER ASSGNOP IDENTIFIER . OUTFROM
+   73 exp_int: IDENTIFIER .
+   88 exp_bol: IDENTIFIER .
+   90 exp_str: IDENTIFIER .
+
+    OUTFROM  shift, and go to state 106
+
+    IDENTIFIER  reduce using rule 73 (exp_int)
+    IDENTIFIER  [reduce using rule 88 (exp_bol)]
+    IDENTIFIER  [reduce using rule 90 (exp_str)]
+    IF          reduce using rule 73 (exp_int)
+    IF          [reduce using rule 88 (exp_bol)]
+    IF          [reduce using rule 90 (exp_str)]
+    WHILE       reduce using rule 73 (exp_int)
+    WHILE       [reduce using rule 88 (exp_bol)]
+    WHILE       [reduce using rule 90 (exp_str)]
+    SKIP        reduce using rule 73 (exp_int)
+    SKIP        [reduce using rule 88 (exp_bol)]
+    SKIP        [reduce using rule 90 (exp_str)]
+    ELSE        reduce using rule 73 (exp_int)
+    ELSE        [reduce using rule 88 (exp_bol)]
+    ELSE        [reduce using rule 90 (exp_str)]
+    FI          reduce using rule 73 (exp_int)
+    FI          [reduce using rule 88 (exp_bol)]
+    FI          [reduce using rule 90 (exp_str)]
+    END         reduce using rule 73 (exp_int)
+    END         [reduce using rule 88 (exp_bol)]
+    END         [reduce using rule 90 (exp_str)]
+    READ        reduce using rule 73 (exp_int)
+    READ        [reduce using rule 88 (exp_bol)]
+    READ        [reduce using rule 90 (exp_str)]
+    WRITE       reduce using rule 73 (exp_int)
+    WRITE       [reduce using rule 88 (exp_bol)]
+    WRITE       [reduce using rule 90 (exp_str)]
+    END_FUN     reduce using rule 73 (exp_int)
+    END_FUN     [reduce using rule 88 (exp_bol)]
+    END_FUN     [reduce using rule 90 (exp_str)]
+    RETURN      reduce using rule 73 (exp_int)
+    RETURN      [reduce using rule 88 (exp_bol)]
+    RETURN      [reduce using rule 90 (exp_str)]
+    CALL        reduce using rule 73 (exp_int)
+    CALL        [reduce using rule 88 (exp_bol)]
+    CALL        [reduce using rule 90 (exp_str)]
+    ';'         reduce using rule 73 (exp_int)
+    ';'         [reduce using rule 88 (exp_bol)]
+    ';'         [reduce using rule 90 (exp_str)]
+    '.'         reduce using rule 90 (exp_str)
+    $default    reduce using rule 73 (exp_int)
+
+
+State 70
+
+   47 command: IDENTIFIER ASSGNOP CALL . IDENTIFIER $@4 '(' arguments ')'
+
+    IDENTIFIER  shift, and go to state 107
 
 
 State 71
 
-   42 command: IDENTIFIER ASSGNOP IDENTIFIER . OUTFROM
-   79 exp_int: IDENTIFIER .
-   94 exp_bol: IDENTIFIER .
-   96 exp_str: IDENTIFIER .
+   54 command: IDENTIFIER ASSGNOP exp_int .
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    OUTFROM  shift, and go to state 111
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
-    IDENTIFIER  reduce using rule 79 (exp_int)
-    IDENTIFIER  [reduce using rule 94 (exp_bol)]
-    IDENTIFIER  [reduce using rule 96 (exp_str)]
-    IF          reduce using rule 79 (exp_int)
-    IF          [reduce using rule 94 (exp_bol)]
-    IF          [reduce using rule 96 (exp_str)]
-    WHILE       reduce using rule 79 (exp_int)
-    WHILE       [reduce using rule 94 (exp_bol)]
-    WHILE       [reduce using rule 96 (exp_str)]
-    SKIP        reduce using rule 79 (exp_int)
-    SKIP        [reduce using rule 94 (exp_bol)]
-    SKIP        [reduce using rule 96 (exp_str)]
-    ELSE        reduce using rule 79 (exp_int)
-    ELSE        [reduce using rule 94 (exp_bol)]
-    ELSE        [reduce using rule 96 (exp_str)]
-    FI          reduce using rule 79 (exp_int)
-    FI          [reduce using rule 94 (exp_bol)]
-    FI          [reduce using rule 96 (exp_str)]
-    END         reduce using rule 79 (exp_int)
-    END         [reduce using rule 94 (exp_bol)]
-    END         [reduce using rule 96 (exp_str)]
-    READ        reduce using rule 79 (exp_int)
-    READ        [reduce using rule 94 (exp_bol)]
-    READ        [reduce using rule 96 (exp_str)]
-    WRITE       reduce using rule 79 (exp_int)
-    WRITE       [reduce using rule 94 (exp_bol)]
-    WRITE       [reduce using rule 96 (exp_str)]
-    END_FUN     reduce using rule 79 (exp_int)
-    END_FUN     [reduce using rule 94 (exp_bol)]
-    END_FUN     [reduce using rule 96 (exp_str)]
-    RETURN      reduce using rule 79 (exp_int)
-    RETURN      [reduce using rule 94 (exp_bol)]
-    RETURN      [reduce using rule 96 (exp_str)]
-    CALL        reduce using rule 79 (exp_int)
-    CALL        [reduce using rule 94 (exp_bol)]
-    CALL        [reduce using rule 96 (exp_str)]
-    ';'         reduce using rule 79 (exp_int)
-    ';'         [reduce using rule 94 (exp_bol)]
-    ';'         [reduce using rule 96 (exp_str)]
-    '.'         reduce using rule 96 (exp_str)
-    $default    reduce using rule 79 (exp_int)
+    $default  reduce using rule 54 (command)
 
 
 State 72
 
-   47 command: IDENTIFIER ASSGNOP CALL . IDENTIFIER $@4 '(' arguments ')'
+   55 command: IDENTIFIER ASSGNOP exp_bol .
 
-    IDENTIFIER  shift, and go to state 112
+    $default  reduce using rule 55 (command)
 
 
 State 73
 
-   60 command: IDENTIFIER ASSGNOP exp_int .
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   56 command: IDENTIFIER ASSGNOP exp_str .
+   91 exp_str: exp_str . '.' exp_str
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    '.'  shift, and go to state 90
 
-    $default  reduce using rule 60 (command)
+    $default  reduce using rule 56 (command)
 
 
 State 74
 
-   61 command: IDENTIFIER ASSGNOP exp_bol .
+   41 command: IDENTIFIER ONTO '<' . exp_int '>'
 
-    $default  reduce using rule 61 (command)
+    NUMBER      shift, and go to state 50
+    IDENTIFIER  shift, and go to state 61
+    '('         shift, and go to state 52
+
+    exp_int  go to state 108
 
 
 State 75
 
-   62 command: IDENTIFIER ASSGNOP exp_str .
-   97 exp_str: exp_str . '.' exp_str
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
+   86        | '(' exp_int . ')'
 
-    '.'  shift, and go to state 92
-
-    $default  reduce using rule 62 (command)
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    ')'  shift, and go to state 109
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
 
 State 76
 
-   41 command: IDENTIFIER ONTO '<' . exp_int '>'
+   78 exp_int: exp_int LEQ . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
+    '('         shift, and go to state 52
+
+    exp_int  go to state 110
+
+
+State 77
+
+   77 exp_int: exp_int GEQ . exp_int
+
+    NUMBER      shift, and go to state 50
+    IDENTIFIER  shift, and go to state 61
+    '('         shift, and go to state 52
+
+    exp_int  go to state 111
+
+
+State 78
+
+   80 exp_int: exp_int '-' . exp_int
+
+    NUMBER      shift, and go to state 50
+    IDENTIFIER  shift, and go to state 61
+    '('         shift, and go to state 52
+
+    exp_int  go to state 112
+
+
+State 79
+
+   79 exp_int: exp_int '+' . exp_int
+
+    NUMBER      shift, and go to state 50
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
     exp_int  go to state 113
 
 
-State 77
+State 80
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
-   92        | '(' exp_int . ')'
-
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    ')'  shift, and go to state 114
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
-
-
-State 78
-
-   84 exp_int: exp_int LEQ . exp_int
+   81 exp_int: exp_int '*' . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
+    '('         shift, and go to state 52
+
+    exp_int  go to state 114
+
+
+State 81
+
+   82 exp_int: exp_int '/' . exp_int
+
+    NUMBER      shift, and go to state 50
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
     exp_int  go to state 115
 
 
-State 79
+State 82
 
-   83 exp_int: exp_int GEQ . exp_int
+   83 exp_int: exp_int '^' . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
     exp_int  go to state 116
 
 
-State 80
+State 83
 
-   86 exp_int: exp_int '-' . exp_int
+   84 exp_int: exp_int '|' . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
     exp_int  go to state 117
 
 
-State 81
+State 84
 
-   85 exp_int: exp_int '+' . exp_int
+   85 exp_int: exp_int '&' . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
     exp_int  go to state 118
 
 
-State 82
+State 85
 
-   87 exp_int: exp_int '*' . exp_int
+   75 exp_int: exp_int '=' . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
     exp_int  go to state 119
 
 
-State 83
+State 86
 
-   88 exp_int: exp_int '/' . exp_int
+   74 exp_int: exp_int '<' . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
     exp_int  go to state 120
 
 
-State 84
+State 87
 
-   89 exp_int: exp_int '^' . exp_int
+   76 exp_int: exp_int '>' . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
     exp_int  go to state 121
 
 
-State 85
-
-   90 exp_int: exp_int '|' . exp_int
-
-    NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
-    '('         shift, and go to state 52
-
-    exp_int  go to state 122
-
-
-State 86
-
-   91 exp_int: exp_int '&' . exp_int
-
-    NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
-    '('         shift, and go to state 52
-
-    exp_int  go to state 123
-
-
-State 87
-
-   81 exp_int: exp_int '=' . exp_int
-
-    NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
-    '('         shift, and go to state 52
-
-    exp_int  go to state 124
-
-
 State 88
 
-   80 exp_int: exp_int '<' . exp_int
+   61 command: IF exp_int $@5 . THEN commands $@6 ELSE $@7 commands FI
 
-    NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
-    '('         shift, and go to state 52
-
-    exp_int  go to state 125
+    THEN  shift, and go to state 122
 
 
 State 89
 
-   82 exp_int: exp_int '>' . exp_int
+   68 command: IF exp_bol $@10 . THEN commands $@11 ELSE $@12 commands FI
 
-    NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
-    '('         shift, and go to state 52
-
-    exp_int  go to state 126
+    THEN  shift, and go to state 123
 
 
 State 90
 
-   67 command: IF exp_int $@5 . THEN commands $@6 ELSE $@7 commands FI
+   91 exp_str: exp_str '.' . exp_str
 
-    THEN  shift, and go to state 127
+    STRING      shift, and go to state 48
+    IDENTIFIER  shift, and go to state 97
+
+    exp_str  go to state 124
 
 
 State 91
 
-   74 command: IF exp_bol $@10 . THEN commands $@11 ELSE $@12 commands FI
+   64 command: WHILE $@8 exp_int . $@9 DO commands END
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    THEN  shift, and go to state 128
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
+
+    $default  reduce using rule 63 ($@9)
+
+    $@9  go to state 125
 
 
 State 92
 
-   97 exp_str: exp_str '.' . exp_str
+   88 exp_bol: IDENTIFIER .
 
-    STRING      shift, and go to state 48
-    IDENTIFIER  shift, and go to state 129
-
-    exp_str  go to state 130
+    $default  reduce using rule 88 (exp_bol)
 
 
 State 93
 
-   70 command: WHILE $@8 exp_int . $@9 DO commands END
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   71 command: WHILE $@13 exp_bol . $@14 DO commands END
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    $default  reduce using rule 70 ($@14)
 
-    $default  reduce using rule 69 ($@9)
-
-    $@9  go to state 131
+    $@14  go to state 126
 
 
 State 94
-
-   94 exp_bol: IDENTIFIER .
-
-    $default  reduce using rule 94 (exp_bol)
-
-
-State 95
-
-   77 command: WHILE $@13 exp_bol . $@14 DO commands END
-
-    $default  reduce using rule 76 ($@14)
-
-    $@14  go to state 132
-
-
-State 96
 
    49 command: READ '#' IDENTIFIER .
 
     $default  reduce using rule 49 (command)
 
 
-State 97
+State 95
 
    50 command: READ '@' IDENTIFIER .
 
     $default  reduce using rule 50 (command)
 
 
-State 98
+State 96
 
-   51 command: WRITE '#' exp_int .
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
-
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
-
-    $default  reduce using rule 51 (command)
-
-
-State 99
-
-   56 command: WRITE '#' exp_bol .
-
-    $default  reduce using rule 56 (command)
-
-
-State 100
-
-   58 command: WRITE '#' exp_str .
-   97 exp_str: exp_str . '.' exp_str
-
-    '.'  shift, and go to state 92
-
-    $default  reduce using rule 58 (command)
-
-
-State 101
-
-   52 command: WRITE '@' exp_int .
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
-
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+   52 command: WRITE '#' exp_bol .
 
     $default  reduce using rule 52 (command)
 
 
-State 102
+State 97
 
-   55 command: WRITE '@' exp_bol .
+   90 exp_str: IDENTIFIER .
 
-    $default  reduce using rule 55 (command)
-
-
-State 103
-
-   59 command: WRITE '@' exp_str .
-   97 exp_str: exp_str . '.' exp_str
-
-    '.'  shift, and go to state 92
-
-    $default  reduce using rule 59 (command)
+    $default  reduce using rule 90 (exp_str)
 
 
-State 104
+State 98
+
+   53 command: WRITE '@' exp_str .
+   91 exp_str: exp_str . '.' exp_str
+
+    '.'  shift, and go to state 90
+
+    $default  reduce using rule 53 (command)
+
+
+State 99
 
    45 command: CALL IDENTIFIER $@3 . '(' arguments ')'
 
-    '('  shift, and go to state 133
+    '('  shift, and go to state 127
 
 
-State 105
+State 100
 
    20 parameters: SKIP .
 
     $default  reduce using rule 20 (parameters)
 
 
-State 106
+State 101
 
    21 parameters: INTEGER . IDENTIFIER
    22           | INTEGER . IDENTIFIER ';'
 
-    IDENTIFIER  shift, and go to state 134
+    IDENTIFIER  shift, and go to state 128
 
 
-State 107
+State 102
 
    23 parameters: BOOLE . IDENTIFIER
    24           | BOOLE . IDENTIFIER ';'
 
-    IDENTIFIER  shift, and go to state 135
+    IDENTIFIER  shift, and go to state 129
 
 
-State 108
+State 103
 
    25 parameters: STR . IDENTIFIER
    26           | STR . IDENTIFIER ';'
 
-    IDENTIFIER  shift, and go to state 136
+    IDENTIFIER  shift, and go to state 130
 
 
-State 109
+State 104
 
    17 fun: FUN IDENTIFIER $@2 '(' parameter ')' . declaration commands END_FUN
 
     $default  reduce using rule 3 (declaration)
 
-    declaration  go to state 137
+    declaration  go to state 131
 
 
-State 110
+State 105
 
    19 parameter: parameter parameters .
 
     $default  reduce using rule 19 (parameter)
 
 
-State 111
+State 106
 
    42 command: IDENTIFIER ASSGNOP IDENTIFIER OUTFROM .
 
     $default  reduce using rule 42 (command)
 
 
-State 112
+State 107
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER . $@4 '(' arguments ')'
 
     $default  reduce using rule 46 ($@4)
 
-    $@4  go to state 138
+    $@4  go to state 132
+
+
+State 108
+
+   41 command: IDENTIFIER ONTO '<' exp_int . '>'
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
+
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 133
+
+
+State 109
+
+   86 exp_int: '(' exp_int ')' .
+
+    $default  reduce using rule 86 (exp_int)
+
+
+State 110
+
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   78        | exp_int LEQ exp_int .
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
+
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
+
+    LEQ       [reduce using rule 78 (exp_int)]
+    GEQ       [reduce using rule 78 (exp_int)]
+    '-'       [reduce using rule 78 (exp_int)]
+    '+'       [reduce using rule 78 (exp_int)]
+    '*'       [reduce using rule 78 (exp_int)]
+    '/'       [reduce using rule 78 (exp_int)]
+    '^'       [reduce using rule 78 (exp_int)]
+    '|'       [reduce using rule 78 (exp_int)]
+    '&'       [reduce using rule 78 (exp_int)]
+    '='       [reduce using rule 78 (exp_int)]
+    '<'       [reduce using rule 78 (exp_int)]
+    '>'       [reduce using rule 78 (exp_int)]
+    $default  reduce using rule 78 (exp_int)
+
+
+State 111
+
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   77        | exp_int GEQ exp_int .
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
+
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
+
+    LEQ       [reduce using rule 77 (exp_int)]
+    GEQ       [reduce using rule 77 (exp_int)]
+    '-'       [reduce using rule 77 (exp_int)]
+    '+'       [reduce using rule 77 (exp_int)]
+    '*'       [reduce using rule 77 (exp_int)]
+    '/'       [reduce using rule 77 (exp_int)]
+    '^'       [reduce using rule 77 (exp_int)]
+    '|'       [reduce using rule 77 (exp_int)]
+    '&'       [reduce using rule 77 (exp_int)]
+    '='       [reduce using rule 77 (exp_int)]
+    '<'       [reduce using rule 77 (exp_int)]
+    '>'       [reduce using rule 77 (exp_int)]
+    $default  reduce using rule 77 (exp_int)
+
+
+State 112
+
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   80        | exp_int '-' exp_int .
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
+
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
+
+    LEQ       [reduce using rule 80 (exp_int)]
+    GEQ       [reduce using rule 80 (exp_int)]
+    '<'       [reduce using rule 80 (exp_int)]
+    '>'       [reduce using rule 80 (exp_int)]
+    $default  reduce using rule 80 (exp_int)
 
 
 State 113
 
-   41 command: IDENTIFIER ONTO '<' exp_int . '>'
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   79        | exp_int '+' exp_int .
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 139
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
+
+    LEQ       [reduce using rule 79 (exp_int)]
+    GEQ       [reduce using rule 79 (exp_int)]
+    '<'       [reduce using rule 79 (exp_int)]
+    '>'       [reduce using rule 79 (exp_int)]
+    $default  reduce using rule 79 (exp_int)
 
 
 State 114
 
-   92 exp_int: '(' exp_int ')' .
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   81        | exp_int '*' exp_int .
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    $default  reduce using rule 92 (exp_int)
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
+
+    LEQ       [reduce using rule 81 (exp_int)]
+    GEQ       [reduce using rule 81 (exp_int)]
+    '<'       [reduce using rule 81 (exp_int)]
+    '>'       [reduce using rule 81 (exp_int)]
+    $default  reduce using rule 81 (exp_int)
 
 
 State 115
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   84        | exp_int LEQ exp_int .
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   82        | exp_int '/' exp_int .
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
-    LEQ       [reduce using rule 84 (exp_int)]
-    GEQ       [reduce using rule 84 (exp_int)]
-    '-'       [reduce using rule 84 (exp_int)]
-    '+'       [reduce using rule 84 (exp_int)]
-    '*'       [reduce using rule 84 (exp_int)]
-    '/'       [reduce using rule 84 (exp_int)]
-    '^'       [reduce using rule 84 (exp_int)]
-    '|'       [reduce using rule 84 (exp_int)]
-    '&'       [reduce using rule 84 (exp_int)]
-    '='       [reduce using rule 84 (exp_int)]
-    '<'       [reduce using rule 84 (exp_int)]
-    '>'       [reduce using rule 84 (exp_int)]
-    $default  reduce using rule 84 (exp_int)
+    LEQ       [reduce using rule 82 (exp_int)]
+    GEQ       [reduce using rule 82 (exp_int)]
+    '<'       [reduce using rule 82 (exp_int)]
+    '>'       [reduce using rule 82 (exp_int)]
+    $default  reduce using rule 82 (exp_int)
 
 
 State 116
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   83        | exp_int GEQ exp_int .
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   83        | exp_int '^' exp_int .
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
     LEQ       [reduce using rule 83 (exp_int)]
     GEQ       [reduce using rule 83 (exp_int)]
-    '-'       [reduce using rule 83 (exp_int)]
-    '+'       [reduce using rule 83 (exp_int)]
-    '*'       [reduce using rule 83 (exp_int)]
-    '/'       [reduce using rule 83 (exp_int)]
-    '^'       [reduce using rule 83 (exp_int)]
-    '|'       [reduce using rule 83 (exp_int)]
-    '&'       [reduce using rule 83 (exp_int)]
-    '='       [reduce using rule 83 (exp_int)]
     '<'       [reduce using rule 83 (exp_int)]
     '>'       [reduce using rule 83 (exp_int)]
     $default  reduce using rule 83 (exp_int)
@@ -1752,64 +1767,54 @@ State 116
 
 State 117
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   86        | exp_int '-' exp_int .
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   84        | exp_int '|' exp_int .
+   85        | exp_int . '&' exp_int
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
-    LEQ       [reduce using rule 86 (exp_int)]
-    GEQ       [reduce using rule 86 (exp_int)]
-    '<'       [reduce using rule 86 (exp_int)]
-    '>'       [reduce using rule 86 (exp_int)]
-    $default  reduce using rule 86 (exp_int)
+    LEQ       [reduce using rule 84 (exp_int)]
+    GEQ       [reduce using rule 84 (exp_int)]
+    '<'       [reduce using rule 84 (exp_int)]
+    '>'       [reduce using rule 84 (exp_int)]
+    $default  reduce using rule 84 (exp_int)
 
 
 State 118
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   85        | exp_int '+' exp_int .
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
+   85        | exp_int '&' exp_int .
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
     LEQ       [reduce using rule 85 (exp_int)]
     GEQ       [reduce using rule 85 (exp_int)]
@@ -1820,366 +1825,205 @@ State 118
 
 State 119
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   87        | exp_int '*' exp_int .
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   75        | exp_int '=' exp_int .
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
-    LEQ       [reduce using rule 87 (exp_int)]
-    GEQ       [reduce using rule 87 (exp_int)]
-    '<'       [reduce using rule 87 (exp_int)]
-    '>'       [reduce using rule 87 (exp_int)]
-    $default  reduce using rule 87 (exp_int)
+    LEQ       [reduce using rule 75 (exp_int)]
+    GEQ       [reduce using rule 75 (exp_int)]
+    '<'       [reduce using rule 75 (exp_int)]
+    '>'       [reduce using rule 75 (exp_int)]
+    $default  reduce using rule 75 (exp_int)
 
 
 State 120
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   88        | exp_int '/' exp_int .
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   74 exp_int: exp_int . '<' exp_int
+   74        | exp_int '<' exp_int .
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
-    LEQ       [reduce using rule 88 (exp_int)]
-    GEQ       [reduce using rule 88 (exp_int)]
-    '<'       [reduce using rule 88 (exp_int)]
-    '>'       [reduce using rule 88 (exp_int)]
-    $default  reduce using rule 88 (exp_int)
+    LEQ       [reduce using rule 74 (exp_int)]
+    GEQ       [reduce using rule 74 (exp_int)]
+    '-'       [reduce using rule 74 (exp_int)]
+    '+'       [reduce using rule 74 (exp_int)]
+    '*'       [reduce using rule 74 (exp_int)]
+    '/'       [reduce using rule 74 (exp_int)]
+    '^'       [reduce using rule 74 (exp_int)]
+    '|'       [reduce using rule 74 (exp_int)]
+    '&'       [reduce using rule 74 (exp_int)]
+    '='       [reduce using rule 74 (exp_int)]
+    '<'       [reduce using rule 74 (exp_int)]
+    '>'       [reduce using rule 74 (exp_int)]
+    $default  reduce using rule 74 (exp_int)
 
 
 State 121
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   89        | exp_int '^' exp_int .
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   74 exp_int: exp_int . '<' exp_int
+   75        | exp_int . '=' exp_int
+   76        | exp_int . '>' exp_int
+   76        | exp_int '>' exp_int .
+   77        | exp_int . GEQ exp_int
+   78        | exp_int . LEQ exp_int
+   79        | exp_int . '+' exp_int
+   80        | exp_int . '-' exp_int
+   81        | exp_int . '*' exp_int
+   82        | exp_int . '/' exp_int
+   83        | exp_int . '^' exp_int
+   84        | exp_int . '|' exp_int
+   85        | exp_int . '&' exp_int
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    LEQ  shift, and go to state 76
+    GEQ  shift, and go to state 77
+    '-'  shift, and go to state 78
+    '+'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '^'  shift, and go to state 82
+    '|'  shift, and go to state 83
+    '&'  shift, and go to state 84
+    '='  shift, and go to state 85
+    '<'  shift, and go to state 86
+    '>'  shift, and go to state 87
 
-    LEQ       [reduce using rule 89 (exp_int)]
-    GEQ       [reduce using rule 89 (exp_int)]
-    '<'       [reduce using rule 89 (exp_int)]
-    '>'       [reduce using rule 89 (exp_int)]
-    $default  reduce using rule 89 (exp_int)
+    LEQ       [reduce using rule 76 (exp_int)]
+    GEQ       [reduce using rule 76 (exp_int)]
+    '-'       [reduce using rule 76 (exp_int)]
+    '+'       [reduce using rule 76 (exp_int)]
+    '*'       [reduce using rule 76 (exp_int)]
+    '/'       [reduce using rule 76 (exp_int)]
+    '^'       [reduce using rule 76 (exp_int)]
+    '|'       [reduce using rule 76 (exp_int)]
+    '&'       [reduce using rule 76 (exp_int)]
+    '='       [reduce using rule 76 (exp_int)]
+    '<'       [reduce using rule 76 (exp_int)]
+    '>'       [reduce using rule 76 (exp_int)]
+    $default  reduce using rule 76 (exp_int)
 
 
 State 122
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   90        | exp_int '|' exp_int .
-   91        | exp_int . '&' exp_int
+   61 command: IF exp_int $@5 THEN . commands $@6 ELSE $@7 commands FI
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    $default  reduce using rule 37 (commands)
 
-    LEQ       [reduce using rule 90 (exp_int)]
-    GEQ       [reduce using rule 90 (exp_int)]
-    '<'       [reduce using rule 90 (exp_int)]
-    '>'       [reduce using rule 90 (exp_int)]
-    $default  reduce using rule 90 (exp_int)
+    commands  go to state 134
 
 
 State 123
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
-   91        | exp_int '&' exp_int .
+   68 command: IF exp_bol $@10 THEN . commands $@11 ELSE $@12 commands FI
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    $default  reduce using rule 37 (commands)
 
-    LEQ       [reduce using rule 91 (exp_int)]
-    GEQ       [reduce using rule 91 (exp_int)]
-    '<'       [reduce using rule 91 (exp_int)]
-    '>'       [reduce using rule 91 (exp_int)]
-    $default  reduce using rule 91 (exp_int)
+    commands  go to state 135
 
 
 State 124
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   81        | exp_int '=' exp_int .
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   91 exp_str: exp_str . '.' exp_str
+   91        | exp_str '.' exp_str .
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
+    '.'  shift, and go to state 90
 
-    LEQ       [reduce using rule 81 (exp_int)]
-    GEQ       [reduce using rule 81 (exp_int)]
-    '<'       [reduce using rule 81 (exp_int)]
-    '>'       [reduce using rule 81 (exp_int)]
-    $default  reduce using rule 81 (exp_int)
+    '.'       [reduce using rule 91 (exp_str)]
+    $default  reduce using rule 91 (exp_str)
 
 
 State 125
 
-   80 exp_int: exp_int . '<' exp_int
-   80        | exp_int '<' exp_int .
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   64 command: WHILE $@8 exp_int $@9 . DO commands END
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
-
-    LEQ       [reduce using rule 80 (exp_int)]
-    GEQ       [reduce using rule 80 (exp_int)]
-    '-'       [reduce using rule 80 (exp_int)]
-    '+'       [reduce using rule 80 (exp_int)]
-    '*'       [reduce using rule 80 (exp_int)]
-    '/'       [reduce using rule 80 (exp_int)]
-    '^'       [reduce using rule 80 (exp_int)]
-    '|'       [reduce using rule 80 (exp_int)]
-    '&'       [reduce using rule 80 (exp_int)]
-    '='       [reduce using rule 80 (exp_int)]
-    '<'       [reduce using rule 80 (exp_int)]
-    '>'       [reduce using rule 80 (exp_int)]
-    $default  reduce using rule 80 (exp_int)
+    DO  shift, and go to state 136
 
 
 State 126
 
-   80 exp_int: exp_int . '<' exp_int
-   81        | exp_int . '=' exp_int
-   82        | exp_int . '>' exp_int
-   82        | exp_int '>' exp_int .
-   83        | exp_int . GEQ exp_int
-   84        | exp_int . LEQ exp_int
-   85        | exp_int . '+' exp_int
-   86        | exp_int . '-' exp_int
-   87        | exp_int . '*' exp_int
-   88        | exp_int . '/' exp_int
-   89        | exp_int . '^' exp_int
-   90        | exp_int . '|' exp_int
-   91        | exp_int . '&' exp_int
+   71 command: WHILE $@13 exp_bol $@14 . DO commands END
 
-    LEQ  shift, and go to state 78
-    GEQ  shift, and go to state 79
-    '-'  shift, and go to state 80
-    '+'  shift, and go to state 81
-    '*'  shift, and go to state 82
-    '/'  shift, and go to state 83
-    '^'  shift, and go to state 84
-    '|'  shift, and go to state 85
-    '&'  shift, and go to state 86
-    '='  shift, and go to state 87
-    '<'  shift, and go to state 88
-    '>'  shift, and go to state 89
-
-    LEQ       [reduce using rule 82 (exp_int)]
-    GEQ       [reduce using rule 82 (exp_int)]
-    '-'       [reduce using rule 82 (exp_int)]
-    '+'       [reduce using rule 82 (exp_int)]
-    '*'       [reduce using rule 82 (exp_int)]
-    '/'       [reduce using rule 82 (exp_int)]
-    '^'       [reduce using rule 82 (exp_int)]
-    '|'       [reduce using rule 82 (exp_int)]
-    '&'       [reduce using rule 82 (exp_int)]
-    '='       [reduce using rule 82 (exp_int)]
-    '<'       [reduce using rule 82 (exp_int)]
-    '>'       [reduce using rule 82 (exp_int)]
-    $default  reduce using rule 82 (exp_int)
+    DO  shift, and go to state 137
 
 
 State 127
-
-   67 command: IF exp_int $@5 THEN . commands $@6 ELSE $@7 commands FI
-
-    $default  reduce using rule 37 (commands)
-
-    commands  go to state 140
-
-
-State 128
-
-   74 command: IF exp_bol $@10 THEN . commands $@11 ELSE $@12 commands FI
-
-    $default  reduce using rule 37 (commands)
-
-    commands  go to state 141
-
-
-State 129
-
-   96 exp_str: IDENTIFIER .
-
-    $default  reduce using rule 96 (exp_str)
-
-
-State 130
-
-   97 exp_str: exp_str . '.' exp_str
-   97        | exp_str '.' exp_str .
-
-    '.'  shift, and go to state 92
-
-    '.'       [reduce using rule 97 (exp_str)]
-    $default  reduce using rule 97 (exp_str)
-
-
-State 131
-
-   70 command: WHILE $@8 exp_int $@9 . DO commands END
-
-    DO  shift, and go to state 142
-
-
-State 132
-
-   77 command: WHILE $@13 exp_bol $@14 . DO commands END
-
-    DO  shift, and go to state 143
-
-
-State 133
 
    45 command: CALL IDENTIFIER $@3 '(' . arguments ')'
 
     IDENTIFIER  reduce using rule 29 (argument)
     $default    reduce using rule 27 (arguments)
 
-    arguments  go to state 144
-    argument   go to state 145
+    arguments  go to state 138
+    argument   go to state 139
 
 
-State 134
+State 128
 
    21 parameters: INTEGER IDENTIFIER .
    22           | INTEGER IDENTIFIER . ';'
 
-    ';'  shift, and go to state 146
+    ';'  shift, and go to state 140
 
     $default  reduce using rule 21 (parameters)
 
 
-State 135
+State 129
 
    23 parameters: BOOLE IDENTIFIER .
    24           | BOOLE IDENTIFIER . ';'
 
-    ';'  shift, and go to state 147
+    ';'  shift, and go to state 141
 
     $default  reduce using rule 23 (parameters)
 
 
-State 136
+State 130
 
    25 parameters: STR IDENTIFIER .
    26           | STR IDENTIFIER . ';'
 
-    ';'  shift, and go to state 148
+    ';'  shift, and go to state 142
 
     $default  reduce using rule 25 (parameters)
 
 
-State 137
+State 131
 
     4 declaration: declaration . declarations
    17 fun: FUN IDENTIFIER $@2 '(' parameter ')' declaration . commands END_FUN
@@ -2194,36 +2038,36 @@ State 137
     $default  reduce using rule 37 (commands)
 
     declarations  go to state 10
-    commands      go to state 149
+    commands      go to state 143
 
 
-State 138
+State 132
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER $@4 . '(' arguments ')'
 
-    '('  shift, and go to state 150
+    '('  shift, and go to state 144
 
 
-State 139
+State 133
 
    41 command: IDENTIFIER ONTO '<' exp_int '>' .
-   82 exp_int: exp_int '>' . exp_int
+   76 exp_int: exp_int '>' . exp_int
 
     NUMBER      shift, and go to state 50
-    IDENTIFIER  shift, and go to state 66
+    IDENTIFIER  shift, and go to state 61
     '('         shift, and go to state 52
 
     IDENTIFIER  [reduce using rule 41 (command)]
     $default    reduce using rule 41 (command)
 
-    exp_int  go to state 126
+    exp_int  go to state 121
 
 
-State 140
+State 134
 
    38 commands: commands . command
    39         | commands . command ';'
-   67 command: IF exp_int $@5 THEN commands . $@6 ELSE $@7 commands FI
+   61 command: IF exp_int $@5 THEN commands . $@6 ELSE $@7 commands FI
 
     IDENTIFIER  shift, and go to state 35
     IF          shift, and go to state 36
@@ -2234,17 +2078,17 @@ State 140
     RETURN      shift, and go to state 42
     CALL        shift, and go to state 43
 
-    $default  reduce using rule 65 ($@6)
+    $default  reduce using rule 59 ($@6)
 
     command  go to state 44
-    $@6      go to state 151
+    $@6      go to state 145
 
 
-State 141
+State 135
 
    38 commands: commands . command
    39         | commands . command ';'
-   74 command: IF exp_bol $@10 THEN commands . $@11 ELSE $@12 commands FI
+   68 command: IF exp_bol $@10 THEN commands . $@11 ELSE $@12 commands FI
 
     IDENTIFIER  shift, and go to state 35
     IF          shift, and go to state 36
@@ -2255,67 +2099,67 @@ State 141
     RETURN      shift, and go to state 42
     CALL        shift, and go to state 43
 
-    $default  reduce using rule 72 ($@11)
+    $default  reduce using rule 66 ($@11)
 
     command  go to state 44
-    $@11     go to state 152
+    $@11     go to state 146
 
 
-State 142
+State 136
 
-   70 command: WHILE $@8 exp_int $@9 DO . commands END
-
-    $default  reduce using rule 37 (commands)
-
-    commands  go to state 153
-
-
-State 143
-
-   77 command: WHILE $@13 exp_bol $@14 DO . commands END
+   64 command: WHILE $@8 exp_int $@9 DO . commands END
 
     $default  reduce using rule 37 (commands)
 
-    commands  go to state 154
+    commands  go to state 147
 
 
-State 144
+State 137
+
+   71 command: WHILE $@13 exp_bol $@14 DO . commands END
+
+    $default  reduce using rule 37 (commands)
+
+    commands  go to state 148
+
+
+State 138
 
    45 command: CALL IDENTIFIER $@3 '(' arguments . ')'
 
-    ')'  shift, and go to state 155
+    ')'  shift, and go to state 149
 
 
-State 145
+State 139
 
    28 arguments: argument . IDENTIFIER
    30 argument: argument . IDENTIFIER ','
 
-    IDENTIFIER  shift, and go to state 156
+    IDENTIFIER  shift, and go to state 150
 
 
-State 146
+State 140
 
    22 parameters: INTEGER IDENTIFIER ';' .
 
     $default  reduce using rule 22 (parameters)
 
 
-State 147
+State 141
 
    24 parameters: BOOLE IDENTIFIER ';' .
 
     $default  reduce using rule 24 (parameters)
 
 
-State 148
+State 142
 
    26 parameters: STR IDENTIFIER ';' .
 
     $default  reduce using rule 26 (parameters)
 
 
-State 149
+State 143
 
    17 fun: FUN IDENTIFIER $@2 '(' parameter ')' declaration commands . END_FUN
    38 commands: commands . command
@@ -2327,49 +2171,49 @@ State 149
     SKIP        shift, and go to state 38
     READ        shift, and go to state 40
     WRITE       shift, and go to state 41
-    END_FUN     shift, and go to state 157
+    END_FUN     shift, and go to state 151
     RETURN      shift, and go to state 42
     CALL        shift, and go to state 43
 
     command  go to state 44
 
 
-State 150
+State 144
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER $@4 '(' . arguments ')'
 
     IDENTIFIER  reduce using rule 29 (argument)
     $default    reduce using rule 27 (arguments)
 
-    arguments  go to state 158
-    argument   go to state 145
+    arguments  go to state 152
+    argument   go to state 139
 
 
-State 151
+State 145
 
-   67 command: IF exp_int $@5 THEN commands $@6 . ELSE $@7 commands FI
+   61 command: IF exp_int $@5 THEN commands $@6 . ELSE $@7 commands FI
 
-    ELSE  shift, and go to state 159
-
-
-State 152
-
-   74 command: IF exp_bol $@10 THEN commands $@11 . ELSE $@12 commands FI
-
-    ELSE  shift, and go to state 160
+    ELSE  shift, and go to state 153
 
 
-State 153
+State 146
+
+   68 command: IF exp_bol $@10 THEN commands $@11 . ELSE $@12 commands FI
+
+    ELSE  shift, and go to state 154
+
+
+State 147
 
    38 commands: commands . command
    39         | commands . command ';'
-   70 command: WHILE $@8 exp_int $@9 DO commands . END
+   64 command: WHILE $@8 exp_int $@9 DO commands . END
 
     IDENTIFIER  shift, and go to state 35
     IF          shift, and go to state 36
     WHILE       shift, and go to state 37
     SKIP        shift, and go to state 38
-    END         shift, and go to state 161
+    END         shift, and go to state 155
     READ        shift, and go to state 40
     WRITE       shift, and go to state 41
     RETURN      shift, and go to state 42
@@ -2378,17 +2222,17 @@ State 153
     command  go to state 44
 
 
-State 154
+State 148
 
    38 commands: commands . command
    39         | commands . command ';'
-   77 command: WHILE $@13 exp_bol $@14 DO commands . END
+   71 command: WHILE $@13 exp_bol $@14 DO commands . END
 
     IDENTIFIER  shift, and go to state 35
     IF          shift, and go to state 36
     WHILE       shift, and go to state 37
     SKIP        shift, and go to state 38
-    END         shift, and go to state 162
+    END         shift, and go to state 156
     READ        shift, and go to state 40
     WRITE       shift, and go to state 41
     RETURN      shift, and go to state 42
@@ -2397,112 +2241,112 @@ State 154
     command  go to state 44
 
 
-State 155
+State 149
 
    45 command: CALL IDENTIFIER $@3 '(' arguments ')' .
 
     $default  reduce using rule 45 (command)
 
 
-State 156
+State 150
 
    28 arguments: argument IDENTIFIER .
    30 argument: argument IDENTIFIER . ','
 
-    ','  shift, and go to state 163
+    ','  shift, and go to state 157
 
     $default  reduce using rule 28 (arguments)
 
 
-State 157
+State 151
 
    17 fun: FUN IDENTIFIER $@2 '(' parameter ')' declaration commands END_FUN .
 
     $default  reduce using rule 17 (fun)
 
 
-State 158
+State 152
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER $@4 '(' arguments . ')'
 
-    ')'  shift, and go to state 164
+    ')'  shift, and go to state 158
 
 
-State 159
+State 153
 
-   67 command: IF exp_int $@5 THEN commands $@6 ELSE . $@7 commands FI
+   61 command: IF exp_int $@5 THEN commands $@6 ELSE . $@7 commands FI
 
-    $default  reduce using rule 66 ($@7)
+    $default  reduce using rule 60 ($@7)
 
-    $@7  go to state 165
-
-
-State 160
-
-   74 command: IF exp_bol $@10 THEN commands $@11 ELSE . $@12 commands FI
-
-    $default  reduce using rule 73 ($@12)
-
-    $@12  go to state 166
+    $@7  go to state 159
 
 
-State 161
+State 154
 
-   70 command: WHILE $@8 exp_int $@9 DO commands END .
+   68 command: IF exp_bol $@10 THEN commands $@11 ELSE . $@12 commands FI
 
-    $default  reduce using rule 70 (command)
+    $default  reduce using rule 67 ($@12)
 
-
-State 162
-
-   77 command: WHILE $@13 exp_bol $@14 DO commands END .
-
-    $default  reduce using rule 77 (command)
+    $@12  go to state 160
 
 
-State 163
+State 155
+
+   64 command: WHILE $@8 exp_int $@9 DO commands END .
+
+    $default  reduce using rule 64 (command)
+
+
+State 156
+
+   71 command: WHILE $@13 exp_bol $@14 DO commands END .
+
+    $default  reduce using rule 71 (command)
+
+
+State 157
 
    30 argument: argument IDENTIFIER ',' .
 
     $default  reduce using rule 30 (argument)
 
 
-State 164
+State 158
 
    47 command: IDENTIFIER ASSGNOP CALL IDENTIFIER $@4 '(' arguments ')' .
 
     $default  reduce using rule 47 (command)
 
 
-State 165
+State 159
 
-   67 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 . commands FI
-
-    $default  reduce using rule 37 (commands)
-
-    commands  go to state 167
-
-
-State 166
-
-   74 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 . commands FI
+   61 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 . commands FI
 
     $default  reduce using rule 37 (commands)
 
-    commands  go to state 168
+    commands  go to state 161
 
 
-State 167
+State 160
+
+   68 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 . commands FI
+
+    $default  reduce using rule 37 (commands)
+
+    commands  go to state 162
+
+
+State 161
 
    38 commands: commands . command
    39         | commands . command ';'
-   67 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 commands . FI
+   61 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 commands . FI
 
     IDENTIFIER  shift, and go to state 35
     IF          shift, and go to state 36
     WHILE       shift, and go to state 37
     SKIP        shift, and go to state 38
-    FI          shift, and go to state 169
+    FI          shift, and go to state 163
     READ        shift, and go to state 40
     WRITE       shift, and go to state 41
     RETURN      shift, and go to state 42
@@ -2511,17 +2355,17 @@ State 167
     command  go to state 44
 
 
-State 168
+State 162
 
    38 commands: commands . command
    39         | commands . command ';'
-   74 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 commands . FI
+   68 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 commands . FI
 
     IDENTIFIER  shift, and go to state 35
     IF          shift, and go to state 36
     WHILE       shift, and go to state 37
     SKIP        shift, and go to state 38
-    FI          shift, and go to state 170
+    FI          shift, and go to state 164
     READ        shift, and go to state 40
     WRITE       shift, and go to state 41
     RETURN      shift, and go to state 42
@@ -2530,15 +2374,15 @@ State 168
     command  go to state 44
 
 
-State 169
+State 163
 
-   67 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 commands FI .
+   61 command: IF exp_int $@5 THEN commands $@6 ELSE $@7 commands FI .
 
-    $default  reduce using rule 67 (command)
+    $default  reduce using rule 61 (command)
 
 
-State 170
+State 164
 
-   74 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 commands FI .
+   68 command: IF exp_bol $@10 THEN commands $@11 ELSE $@12 commands FI .
 
-    $default  reduce using rule 74 (command)
+    $default  reduce using rule 68 (command)
